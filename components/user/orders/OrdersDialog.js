@@ -13,12 +13,11 @@ export default function OrdersDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md mx-auto">
+      <DialogContent className="w-[90vw] max-w-md mx-auto p-4 sm:p-6">
         <DialogHeader>
-          <DialogTitle>Your Orders</DialogTitle>
+          <DialogTitle className="text-base sm:text-lg">Your Orders</DialogTitle>
         </DialogHeader>
-        
-        <div className="space-y-4">
+        <div className="mt-2">
           <OrdersList
             orders={orders}
             onUpdateQuantity={onUpdateQuantity}

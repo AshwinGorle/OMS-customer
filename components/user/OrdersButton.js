@@ -21,7 +21,9 @@ export default function OrdersButton({ onOrdersClick, onBillClick, itemCount }) 
             </span>
           )}
         </Button>
-        <Button 
+
+        {/* my bill button ki koi jarurat nahi hai bhai apn ko */}
+        {/* <Button 
           className="flex-1 gap-2 shadow-sm" 
           onClick={onBillClick}
           variant="outline"
@@ -29,7 +31,7 @@ export default function OrdersButton({ onOrdersClick, onBillClick, itemCount }) 
         >
           <Receipt className="h-5 w-5" />
           <span>My Bill</span>
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

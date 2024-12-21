@@ -9,7 +9,7 @@ import { formatPrice } from "@/lib/utils/price";
 export default function DishCard({ dish, onAddClick }) {
   return (
     <Card className="overflow-hidden h-full">
-      <div className="relative h-36 sm:h-32 w-full">
+      <div className="relative h-20 sm:h-28 w-full">
         <Image
           src={dish.image}
           alt={dish.name}
@@ -17,18 +17,18 @@ export default function DishCard({ dish, onAddClick }) {
           className="object-cover"
         />
       </div>
-      <CardContent className="p-3">
-        <div className="space-y-1">
-          <h3 className="font-semibold truncate text-base sm:text-lg">{dish.name}</h3>
-          <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
+      <CardContent className="p-2">
+        <div className="space-y-0.5">
+          <h3 className="font-semibold truncate text-xs sm:text-sm">{dish.name}</h3>
+          <p className="text-xs text-muted-foreground line-clamp-1">
             {dish.description}
           </p>
-          <div className="flex items-center justify-between pt-2">
-            <span className="font-semibold text-primary text-sm sm:text-base">
+          <div className="flex items-center justify-between pt-0.5">
+            <span className="font-semibold text-primary text-xs">
               {formatPrice(dish.price)}
             </span>
-            <Button size="sm" onClick={onAddClick} className="text-xs sm:text-sm px-2 sm:px-3">
-              <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <Button size="sm" onClick={onAddClick} className="h-6 text-xs px-2">
+              <Plus className="h-3 w-3 mr-0.5" />
               Add
             </Button>
           </div>

@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { formatPrice } from "@/lib/utils/price";
 
 export default function DishQuantityModal({ open, onOpenChange, dish, onOrder }) {
   const [quantity, setQuantity] = useState(1);
@@ -32,12 +33,12 @@ export default function DishQuantityModal({ open, onOpenChange, dish, onOrder })
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xs mx-auto">
-        <DialogHeader>
-          <DialogTitle>Select Quantity</DialogTitle>
+      <DialogContent className="w-[90vw] max-w-xs mx-auto p-4 sm:p-6">
+        <DialogHeader className="space-y-1">
+          <DialogTitle className="text-base sm:text-lg">Select Quantity</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
-          <div className="relative h-40 w-full rounded-lg overflow-hidden">
+        <div className="space-y-3 sm:space-y-4">
+          <div className="relative h-32 sm:h-40 w-full rounded-lg overflow-hidden">
             <Image
               src={dish.image}
               alt={dish.name}
@@ -47,37 +48,37 @@ export default function DishQuantityModal({ open, onOpenChange, dish, onOrder })
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg">{dish.name}</h3>
-            <p className="text-sm text-muted-foreground">{dish.description}</p>
+            <h3 className="font-semibold text-sm sm:text-base">{dish.name}</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">{dish.description}</p>
           </div>
 
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-3">
             <Button
               variant="outline"
               size="icon"
+              className="h-8 w-8"
               onClick={() => handleQuantityChange(-1)}
               disabled={quantity <= 1}
             >
-              <Minus className="h-4 w-4" />
+              <Minus className="h-3 w-3" />
             </Button>
-            <span className="text-xl font-semibold w-8 text-center">
+            <span className="text-lg font-semibold w-6 text-center">
               {quantity}
             </span>
             <Button
               variant="outline"
               size="icon"
+              className="h-8 w-8"
               onClick={() => handleQuantityChange(1)}
               disabled={quantity >= 10}
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-3 w-3" />
             </Button>
           </div>
 
-          <div className="pt-4">
-            <Button className="w-full" onClick={handleSubmit}>
-              Add to Order - ₹{totalPrice}
-            </Button>
-          </div>
+          <Button className="w-full h-9 text-sm" onClick={handleSubmit}>
+            Add to Order - {formatPrice(totalPrice)}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
