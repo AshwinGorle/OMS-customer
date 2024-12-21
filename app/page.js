@@ -28,19 +28,6 @@ export default function Home() {
             Manage your hotel operations efficiently
           </p>
         </div>
-        
-        <div className="flex flex-col space-y-4">
-          <Link href="/login">
-            <Button className="w-full" size="lg">
-              Sign In
-            </Button>
-          </Link>
-          <Link href="/signup">
-            <Button variant="outline" className="w-full" size="lg">
-              Create Account
-            </Button>
-          </Link>
-        </div>
       </div>
     </div>
   );
