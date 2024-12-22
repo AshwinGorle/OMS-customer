@@ -14,6 +14,7 @@ import { formatPrice } from "@/lib/utils/price";
 
 export default function DishQuantityModal({ open, onOpenChange, dish, onOrder }) {
   const [quantity, setQuantity] = useState(1);
+  const ordersItems = [];
 
   const handleQuantityChange = (delta) => {
     const newQuantity = quantity + delta;
@@ -21,10 +22,22 @@ export default function DishQuantityModal({ open, onOpenChange, dish, onOrder })
       setQuantity(newQuantity);
     }
   };
-
-  const handleSubmit = () => {
-    onOrder(quantity);
-    setQuantity(1);
+  
+  const handleAddItemToCart = () => {
+    ordersItems.push({dish : dish, quantity : quantity});
+     // check cart exists or not
+     let cart = localStorage.getItem('cart');
+     // if exists then push item in that card
+     if (!cart){
+        const initialCart = {
+          items : []
+        }
+        localStorage.setItem('cart', JSON.stringify(initialCart));
+     }
+     cart = JSON.parse(localStorage.getItem('cart'));
+     cart.items.push({dish : dish, quantity : quantity});
+     localStorage.setItem('cart', JSON.stringify(cart));
+     setQuantity(1);
   };
 
   if (!dish) return null;
@@ -40,7 +53,7 @@ export default function DishQuantityModal({ open, onOpenChange, dish, onOrder })
         <div className="space-y-3 sm:space-y-4">
           <div className="relative h-32 sm:h-40 w-full rounded-lg overflow-hidden">
             <Image
-              src={dish.image}
+              src={dish.logo}
               alt={dish.name}
               fill
               className="object-cover"
@@ -76,7 +89,7 @@ export default function DishQuantityModal({ open, onOpenChange, dish, onOrder })
             </Button>
           </div>
 
-          <Button className="w-full h-9 text-sm" onClick={handleSubmit}>
+          <Button className="w-full h-9 text-sm" onClick={handleAddItemToCart}>
             Add to Order - {formatPrice(totalPrice)}
           </Button>
         </div>

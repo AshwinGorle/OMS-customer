@@ -3,12 +3,12 @@ import { offerActions } from "@/redux/slices/offerSlice";
 import { getActionErrorMessage } from "@/utils";
 
 // Action to get all offers
-export const getAllOffers = () => async (dispatch) => {
+export const getAllOffers = (hotelId) => async (dispatch) => {
     console.log("action-get-all-offers-req:");
     try {
         dispatch(offerActions.getAllOffersRequest());
         const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/offers`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/customers/offers/${hotelId}`,
             {
                 headers: {
                     "Content-Type": "application/json",

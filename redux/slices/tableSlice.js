@@ -13,6 +13,12 @@ const initialTable = {
         data: null,
     },
 
+    getTable: {
+        status: null,
+        error: null,
+        data: null,
+    },
+
     updateTable: {
         status: null,
         error: null,
@@ -23,7 +29,7 @@ const initialTable = {
         status: null,
         error: null,
         data: null,
-    },
+    }
 };
 
 const tableSlice = createSlice({
@@ -61,6 +67,19 @@ const tableSlice = createSlice({
         getAllTablesFailure: (state, action) => {
             state.getAllTables.status = "failed";
             state.getAllTables.error = action.payload;
+        },
+
+        // getTable
+        getTableRequest: (state) => {
+            state.getTable.status = "pending";
+        },
+        getTableSuccess: (state, action) => {
+            state.getTable.status = "success";
+            state.getTable.data = action.payload;
+        },
+        getTableFailure: (state, action) => {
+            state.getTable.status = "failed";
+            state.getTable.error = action.payload;
         },
 
         // updateTable
@@ -112,6 +131,17 @@ const tableSlice = createSlice({
             state.createTable.data = null;
         },
 
+        // Manual state cleaners
+        clearGetTableStatus : (state)=>{
+            state.getTable.status = null;
+        },
+        clearGetTableError : (state)=>{
+            state.getTable.error = null;
+        },
+        clearGetTableData : (state)=>{
+            state.getTable.error = null;
+        },
+
 
         clearUpdateTableStats: (state) => {
             state.updateTable.status = null;
@@ -124,8 +154,9 @@ const tableSlice = createSlice({
             state.deleteTable.error = null;
             state.deleteTable.data = null;
         },
+          
     },
 });
 
-export const tableActions = tableSlice.actions;
 export const tableReducer = tableSlice.reducer;
+export const tableActions = tableSlice.actions;

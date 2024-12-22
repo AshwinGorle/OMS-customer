@@ -3,13 +3,13 @@ import { dishActions } from "@/redux/slices/dishSlice";
 import { getActionErrorMessage } from "@/utils";
 
 // Action to get all dishes
-export const getAllDishes = () => async (dispatch) => {
+export const getAllDishes = (hotelId) => async (dispatch) => {
     console.log("action-get-all-dishes-req:");
     try {
         dispatch(dishActions.getAllDishesRequest());
         const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/dishes`,
-            {
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/customers/dishes/${hotelId}`,
+            { 
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -59,51 +59,12 @@ export const getDish = (dishId) => async (dispatch) => {
     }
 };
 
-// Action to update an dish
-// export const updateDish = (dishId, dishData) => async (dispatch) => {
-//     console.log("action-update-dish-req:", dishId, dishData);
-//     try {
-//         dispatch(dishActions.updateDishRequest());
-//         const response = await axios.patch(
-//             `${process.env.NEXT_PUBLIC_SERVER_URL}/dishes/${dishId}`,
-//             dishData,
-//             {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//                 withCredentials: true,
-//             }
-//         );
 
-//         const { status, message, data } = response.data;
-//         console.log("action-update-dish-res:", data);
-//         if (status === "success") {
-//             dispatch(dishActions.updateDishSuccess(data));
-//         } else {
-//             dispatch(dishActions.updateDishFailure(message));
-//         }
-//     } catch (error) {
-//         console.log("action-update-dish-error:", error);
-//         const errorMessage = getActionErrorMessage(error);
-//         dispatch(dishActions.updateDishFailure(errorMessage));
-//     }
-// };
 
 export const updateDish = (dishId, dishData) => async (dispatch) => {
     console.log("action-update-dish-req:", dishId, dishData);
     try {
         dispatch(dishActions.updateDishRequest());
-
-        // // Create FormData and append fields
-        // const formData = new FormData();
-        // Object.keys(dishData).forEach((key) => {
-        //     if (key === "file" && dishData[key]) {
-        //         formData.append("logo", dishData[key]); // Append file
-        //     } else {
-        //         formData.append(key, dishData[key]); // Append other fields
-        //     }
-        // });
-
         const response = await axios.patch(
             `${process.env.NEXT_PUBLIC_SERVER_URL}/dishes/${dishId}`,
             dishData,

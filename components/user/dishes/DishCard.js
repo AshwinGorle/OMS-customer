@@ -11,7 +11,7 @@ export default function DishCard({ dish, onAddClick }) {
     <Card className="overflow-hidden h-full">
       <div className="relative h-20 sm:h-28 w-full">
         <Image
-          src={dish.image}
+          src={dish.logo}
           alt={dish.name}
           fill
           className="object-cover"

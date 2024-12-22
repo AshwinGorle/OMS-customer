@@ -1,12 +1,12 @@
 import axios from "axios";
 import { categoryActions } from "@/redux/slices/categorySlice";
 import { getActionErrorMessage } from "@/utils";
-export const getAllCategories = () => async (dispatch) => {
-    console.log("action-get-all-categories-req:");
+export const getAllCategories = (hotelId) => async (dispatch) => {
+    console.log("action-get-all-categories-req: ", hotelId);
     try {
         dispatch(categoryActions.getAllCategoriesRequest());
         const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/categories`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/customers/categories/${hotelId}`,
             {
                 headers: {
                     "Content-Type": "application/json",

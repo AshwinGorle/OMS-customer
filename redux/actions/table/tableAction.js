@@ -1,5 +1,5 @@
 import axios from "axios";
-import { tableActions } from "@/redux/slices/tablesSlice";
+import { tableActions } from "@/redux/slices/tableSlice";
 import { getActionErrorMessage } from "@/utils";
 
 // Action to get all tables
@@ -26,6 +26,33 @@ export const getAllTables = () => async (dispatch) => {
         }
     } catch (error) {
         console.log("action-get-all-tables-error:", error);
+        const errorMessage = getActionErrorMessage(error);
+        dispatch(tableActions.getAllTablesFailure(errorMessage));
+    }
+};
+export const getTable = (tableId) => async (dispatch) => {
+    console.log("action-get-table-req:");
+    try {
+        dispatch(tableActions.getTableRequest());
+        const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/customers/table/${tableId}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            }
+        );
+
+        const { status, message, data } = response.data;
+        console.log("action-get-table-res:", data);
+        if (status === "success") {
+            dispatch(tableActions.getTableSuccess(data));
+        } else {
+            dispatch(tableActions.getTableFailure(message));
+        }
+    } catch (error) {
+        console.log("action-get-table-error:", error);
         const errorMessage = getActionErrorMessage(error);
         dispatch(tableActions.getAllTablesFailure(errorMessage));
     }

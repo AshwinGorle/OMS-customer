@@ -14,7 +14,7 @@ export default function CategoryItem({ category, isSelected, onClick }) {
         isSelected ? "ring-primary" : "ring-gray-200"
       )}>
         <Image
-          src={category.image}
+          src={category.logo}
           alt={category.name}
           fill
           className="object-cover"

@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { offerActions } from "@/redux/slices/offerSlice";
 import { getAllOffers } from "@/redux/actions/offer"; // Ensure this matches your action import
 
-export const useGetAllOffers = (type = "offer") => {
+export const useGetAllOffers = (type = "offer", hotelId) => {
     const params = {}
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export const useGetAllOffers = (type = "offer") => {
     const fetchAllOffers = useCallback(() => {
         console.log("checking -----", type)
         if (type == 'offer' && (!data || refresh)) {
-            dispatch(getAllOffers());
+            dispatch(getAllOffers(hotelId));
         }
     }, [dispatch, data, refresh]);
 

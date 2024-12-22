@@ -20,7 +20,7 @@ export default function DishesSection({ dishes, selectedCategory, onAddToOrder }
   };
 
   const filteredDishes = selectedCategory
-    ? dishes.filter(dish => dish.categoryId === selectedCategory.id)
+    ? dishes.filter(dish => dish.category._id.toString() === selectedCategory._id.toString())
     : [];
 
   if (!selectedCategory) return null;

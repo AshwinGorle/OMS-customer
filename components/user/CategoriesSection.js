@@ -9,9 +9,9 @@ export default function CategoriesSection({ categories, selectedCategory, onCate
       <div className="flex gap-4 px-1 overflow-x-auto hide-scrollbar">
         {categories.map((category) => (
           <CategoryItem
-            key={category.id}
+            key={category._id}
             category={category}
-            isSelected={selectedCategory?.id === category.id}
+            isSelected={selectedCategory?._id === category._id}
             onClick={onCategoryClick}
           />
         ))}

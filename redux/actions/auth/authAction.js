@@ -1,4 +1,4 @@
-import { serverUrl } from "@/config/config";
+
 import { authActions } from "@/redux/slices/authSlice"
 import { getActionErrorMessage } from "@/utils";
 import axios from "axios";

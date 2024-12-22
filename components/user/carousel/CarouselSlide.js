@@ -6,7 +6,7 @@ export default function CarouselSlide({ offer }) {
   return (
     <div className="w-full h-full flex-shrink-0 relative">
       <Image
-        src={offer.image}
+        src={offer.logo}
         alt={offer.name}
         fill
         className="object-cover"
