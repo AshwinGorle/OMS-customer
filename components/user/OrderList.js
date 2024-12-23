@@ -18,7 +18,7 @@ const StatusSection = ({ title, orders, icon: Icon }) => {
   const [isExpanded, setIsExpanded] = useState(true)
 
   return (
-    <Card className="mb-4">
+    <Card className="mb-4 mt-4">
       <CardHeader className="py-4 px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
