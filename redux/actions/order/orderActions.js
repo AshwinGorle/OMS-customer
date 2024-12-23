@@ -207,3 +207,32 @@ export const publishOrder = (orderId) => async (dispatch) => {
         dispatch(orderActions.publishOrderFailure(errorMessage));
     }
 };
+
+
+export const dummyfunctiondeleteit= (orderId) => async (dispatch) => {
+    console.log("action-publish-order-req:", orderId);
+    try {
+        dispatch(orderActions.publishOrderRequest());
+        const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/orders/publish/${orderId}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            }
+        );
+
+        const { status, message, data } = response.data;
+        console.log("action-publish-order-res:", data);
+        if (status === "success") {
+            dispatch(orderActions.publishOrderSuccess(data));
+        } else {
+            dispatch(orderActions.publishOrderFailure(message));
+        }
+    } catch (error) {
+        console.log("action-publish-order-error:", error);
+        const errorMessage = getActionErrorMessage(error);
+        dispatch(orderActions.publishOrderFailure(errorMessage));
+    }
+};
