@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import OccupiedStatus from "@/components/occupied/OccupiedStatus";
 import WaitTimeInfo from "@/components/occupied/WaitTimeInfo";
 import ActionButtons from "@/components/occupied/ActionButtons";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { baseUrl } from "@/config";
 import { Spinner } from "@/components/ui/spinner";
