@@ -3,7 +3,7 @@
 import { ShoppingBag, Receipt } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { baseUrl } from "@/config";
+;
 
 export default function OrdersButton({ onOrdersClick, onBillClick, itemCount, tableId, hotelId }) {
   const router = useRouter();
@@ -12,7 +12,7 @@ export default function OrdersButton({ onOrdersClick, onBillClick, itemCount, ta
       <div className="max-w-lg mx-auto flex gap-4">
         <Button 
           className="flex-1 gap-2 shadow-sm" 
-          onClick={()=>router.push(`${baseUrl}/user/my-orders/${hotelId}/${tableId}`)}
+          onClick={()=>router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/my-orders/${hotelId}/${tableId}`)}
           variant="default"
           size="lg"
         >

@@ -7,7 +7,7 @@ import WaitTimeInfo from "@/components/occupied/WaitTimeInfo";
 import ActionButtons from "@/components/occupied/ActionButtons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { baseUrl } from "@/config";
+;
 import { Spinner } from "@/components/ui/spinner";
 
 const OccupiedContent = () => {
@@ -23,7 +23,7 @@ const OccupiedContent = () => {
     <>
       <WaitTimeInfo />
       <ActionButtons onRefresh={() => window.location.reload()} isRefreshing={false} />
-      <Button onClick={() => router.push(`${baseUrl}/user/${hotelId}/${tableId}`)} variant="default">
+      <Button onClick={() => router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${hotelId}/${tableId}`)} variant="default">
         Go Back
       </Button>
       <div className="text-center">

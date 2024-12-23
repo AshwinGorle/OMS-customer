@@ -1,5 +1,5 @@
 // "use client";
-// import { baseUrl } from "@/config";
+// ;
 // import { useParams, useRouter, useSearchParams } from "next/navigation";
 // import { useEffect, useState } from "react";
 
@@ -20,7 +20,7 @@
 
 //         <div>{`OrderPage`}</div>
 //         <div>{`table Id : ${tableId}`}</div>
-//         <button onClick={()=>router.push(`${baseUrl}/user/${hotelId}/${tableId}`)}>Go Back</button>
+//         <button onClick={()=>router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${hotelId}/${tableId}`)}>Go Back</button>
 //     </div>
 
 //  }
@@ -31,7 +31,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { baseUrl } from "@/config";
+;
 import { Button } from "@/components/ui/button";
 import { useGetTableOrders } from "@/hooks/order/useGetTableOrders";
 import { CartOrderCard } from "@/components/user/CartOrderCard";
@@ -75,7 +75,7 @@ const MyOrderPage = () => {
       {tableOrders && tableOrders.length && <OrderList orders={tableOrders}></OrderList>}
       <Button 
         className="mt-4"
-        onClick={() => router.push(`${baseUrl}/user/${hotelId}/${tableId}`)}
+        onClick={() => router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${hotelId}/${tableId}`)}
       >
         Go Back
       </Button>

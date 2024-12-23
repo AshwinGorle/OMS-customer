@@ -31,7 +31,7 @@ import { useGetAllDishes } from "@/hooks/dish/useGetAllDishes";
 import { useGetAllCategories } from "@/hooks/category/useGetAllCategories";
 import { useGetTable } from "@/hooks/table/useGetTable";
 import { useGetAllOffers } from "@/hooks/offer/useGetAllOffers";
-import { baseUrl } from "@/config";
+;
 import { Spinner } from "@/components/ui/spinner";
 
 export default function UserPage() {
@@ -70,17 +70,17 @@ export default function UserPage() {
       if (table.status == "occupied") {
         if (!customer) {
           console.log("redirect 1");
-          // router.push(
-          //   `${baseUrl}/occupied?hotelId=${hotelId}&tableId=${tableId}&tableNumber=${table.sequence}&customerName=${table?.customer?.name || "no name"}`// this page shows customers that this table is reserved by other customer
-          // );
+          router.push(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/occupied?hotelId=${hotelId}&tableId=${tableId}&tableNumber=${table.sequence}&customerName=${table?.customer?.name || "no name"}`// this page shows customers that this table is reserved by other customer
+          );
           return;
         } else {
           customer = JSON.parse(customer);
           if (customer._id.toString() != table.customer._id.toString()) {
             console.log("redirect 2");
-            // router.push(
-            //   `${baseUrl}/occupied?hotelId=${hotelId}&tableId=${tableId}&tableNumber=${table.sequence}&customerName=${table?.customer?.name || "no name"}`
-            // );
+            router.push(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/occupied?hotelId=${hotelId}&tableId=${tableId}&tableNumber=${table.sequence}&customerName=${table?.customer?.name || "no name"}`
+            );
           }
         }
       } else {
