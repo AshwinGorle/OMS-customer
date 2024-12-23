@@ -5,9 +5,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import OccupiedStatus from "@/components/occupied/OccupiedStatus";
 import WaitTimeInfo from "@/components/occupied/WaitTimeInfo";
 import ActionButtons from "@/components/occupied/ActionButtons";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { baseUrl } from "@/config";
+
 
 export default function OccupiedPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const router = useRouter();
+    const searchParams = useSearchParams();
+    const tableId = searchParams.get("tableId")
+    const hotelId = searchParams.get("hotelId")
+    const tableNumber = searchParams.get("tableNumber")
+    const customerName = searchParams.get("customerName")
 
 
   // yaha par refresh logic likh dena bhai , refresh karne table status show karna hai
@@ -34,7 +44,9 @@ export default function OccupiedPage() {
             isRefreshing={isRefreshing}
             onRefresh={handleRefresh}
           />
-          
+          <Button onClick={()=>router.push(`${baseUrl}/user/${hotelId}/${tableId}`)} variant="default">
+             Go Back
+          </Button>
           <div className="text-center">
             <p className="text-xs text-muted-foreground">
               Need assistance? Please ask our staff for help
@@ -45,3 +57,29 @@ export default function OccupiedPage() {
     </div>
   );
 }
+
+
+// "use client";
+// import { useRouter, useSearchParams } from "next/navigation";
+// import { baseUrl } from "@/config";
+
+//  const OccupiedPage = ()=>{
+//     const router = useRouter();
+//     const searchParams = useSearchParams();
+//     const tableId = searchParams.get("tableId")
+//     const hotelId = searchParams.get("hotelId")
+//     const tableNumber = searchParams.get("tableNumber")
+//     const customerName = searchParams.get("customerName")
+   
+
+
+//     return <div>
+//         <div>{`table Number ${tableNumber} is busy`}</div>
+//         <div>{`table Id : ${tableId}`}</div>
+//         <div>{`hotel Id : ${hotelId}`}</div>
+//         <button onClick={()=>router.push(`http://localhost:3000/user/${hotelId}/${tableId}`)}>refresh</button>
+//     </div>
+
+//  }
+   
+// export default OccupiedPage;
