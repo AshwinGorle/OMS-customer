@@ -33,6 +33,7 @@ import { useGetTable } from "@/hooks/table/useGetTable";
 import { useGetAllOffers } from "@/hooks/offer/useGetAllOffers";
 ;
 import { Spinner } from "@/components/ui/spinner";
+import OccupiedDialog from "../../component/OccupiedDialog";
 
 export default function UserPage() {
   const { hotelId, tableId } = useParams();
@@ -46,13 +47,14 @@ export default function UserPage() {
   const { loading: tableLoading, table } = useGetTable(tableId);
   const { loading: offerLoading, offers } = useGetAllOffers("offer", hotelId);
 
-  console.log("offers : ", offers);
+
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isOrdersDialogOpen, setIsOrdersDialogOpen] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [customerName, setCustomerName] = useState("");
+  const [openOccupiedDialog, setOpenOccupiedDialog] = useState(false);
 
   const {
     orders,
@@ -70,17 +72,13 @@ export default function UserPage() {
       if (table.status == "occupied") {
         if (!customer) {
           console.log("redirect 1");
-          router.push(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/occupied?hotelId=${hotelId}&tableId=${tableId}&tableNumber=${table.sequence}&customerName=${table?.customer?.name || "no name"}`// this page shows customers that this table is reserved by other customer
-          );
+          setOpenOccupiedDialog(true);
           return;
         } else {
           customer = JSON.parse(customer);
           if (customer._id.toString() != table.customer._id.toString()) {
             console.log("redirect 2");
-            router.push(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/occupied?hotelId=${hotelId}&tableId=${tableId}&tableNumber=${table.sequence}&customerName=${table?.customer?.name || "no name"}`
-            );
+            setOpenOccupiedDialog(true);
           }
         }
       } else {
@@ -171,6 +169,8 @@ export default function UserPage() {
         open={isSuccessDialogOpen}
         onOpenChange={setIsSuccessDialogOpen}
       />
+
+      <OccupiedDialog open={openOccupiedDialog} customerName={table?.customer?.name} tableNumber={table.sequence}/>
     </div>
   );
 }
