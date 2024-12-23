@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
-import { OrderCard } from './orderCards'
+import { OrderCard } from './OrderCards'
 import { ChevronDown, ChevronUp, ClipboardList, Clock, CheckCircle } from 'lucide-react'
 
 const statusIcons = {
