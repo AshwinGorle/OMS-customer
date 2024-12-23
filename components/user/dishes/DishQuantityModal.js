@@ -38,6 +38,7 @@ export default function DishQuantityModal({ open, onOpenChange, dish, onOrder })
      cart.items.push({dish : dish, quantity : quantity});
      localStorage.setItem('cart', JSON.stringify(cart));
      setQuantity(1);
+     onOpenChange();
   };
 
   if (!dish) return null;
