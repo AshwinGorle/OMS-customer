@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import OccupiedStatus from "@/components/occupied/OccupiedStatus";
 import WaitTimeInfo from "@/components/occupied/WaitTimeInfo";
@@ -8,6 +8,7 @@ import ActionButtons from "@/components/occupied/ActionButtons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { baseUrl } from "@/config";
+import { Spinner } from "@/components/ui/spinner";
 
 
 export default function OccupiedPage() {
@@ -35,6 +36,7 @@ export default function OccupiedPage() {
   };
 
   return (
+    <Suspense fallback={<Spinner/>}>
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <OccupiedStatus />
@@ -55,6 +57,7 @@ export default function OccupiedPage() {
         </CardContent>
       </Card>
     </div>
+    </Suspense>
   );
 }
 
