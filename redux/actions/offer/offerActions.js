@@ -120,3 +120,32 @@ export const deleteOffer = (offerId) => async (dispatch) => {
         dispatch(offerActions.deleteOfferFailure(errorMessage));
     }
 };
+
+
+export const dummyFunctionDeleteIT = (offerId) => async (dispatch) => {
+    console.log("action-delete-offer-req:", offerId);
+    try {
+        dispatch(offerActions.deleteOfferRequest());
+        const response = await axios.delete(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/offers/${offerId}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            }
+        );
+
+        const { status, message, data } = response.data;
+        console.log("action-delete-offer-res:", data);
+        if (status === "success") {
+            dispatch(offerActions.deleteOfferSuccess({ deletedOfferId: offerId }));
+        } else {
+            dispatch(offerActions.deleteOfferFailure(message));
+        }
+    } catch (error) {
+        console.log("action-delete-offer-error:", error);
+        const errorMessage = getActionErrorMessage(error);
+        dispatch(offerActions.deleteOfferFailure(errorMessage));
+    }
+};
