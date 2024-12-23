@@ -1,31 +1,4 @@
-// "use client";
-// ;
-// import { useParams, useRouter, useSearchParams } from "next/navigation";
-// import { useEffect, useState } from "react";
 
-//  const MyOrderPage = ()=>{
-//     const router = useRouter();
-//     const searchParams = useSearchParams();
-//     const {tableId, hotelId} = useParams();
-    
-//     const[cartOrder, setCartOrder] = useState(null);
-
-//     useEffect(()=>{
-//         const ordersFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
-//         setCartOrder(ordersFromLocalStorage.items)
-//     },[])
-
-//     return <div>
-//         {/* implement That orderCard component here */}
-
-//         <div>{`OrderPage`}</div>
-//         <div>{`table Id : ${tableId}`}</div>
-//         <button onClick={()=>router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${hotelId}/${tableId}`)}>Go Back</button>
-//     </div>
-
-//  }
-   
-// export default MyOrderPage;
 
 "use client";
 
