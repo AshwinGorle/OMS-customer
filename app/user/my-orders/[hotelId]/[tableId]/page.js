@@ -39,7 +39,7 @@ const MyOrderPage = () => {
       <p className="mb-4">Table ID: {tableId}</p>
       
       {cartOrder && cartOrder.length > 0 ? (
-        <CartOrderCard items={cartOrder} onUpdateCart={updateCart} tableId={tableId} hotelId={hotelId}/>
+        <CartOrderCard items={cartOrder} onUpdateCart={updateCart} tableId={tableId} hotelId={hotelId} setCartOrder={setCartOrder}/>
       ) : (
         <p>Your cart is empty.</p>
       )}

@@ -5,7 +5,7 @@ import { createOrder } from "@/redux/actions/order/orderActions";
 import { orderActions } from "@/redux/slices/orderSlice";
 import { useGetUser } from "../auth";
 
-export const useCreateOrder = () => {
+export const useCreateOrder = (setCartOrder) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const { status, error, data } = useSelector((state) => state.order.createOrder);
@@ -23,6 +23,7 @@ export const useCreateOrder = () => {
             });
             dispatch(orderActions.clearCreateOrderStats());
             // setOpen(false) // to close dialog
+            setCartOrder(null);
         } else if (status === "failed") {
             setLoading(false);
             toast({
