@@ -2,14 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogHeader,
+//   DialogTitle,
+// } // Replace with your ShadCN modal component
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/Dialog"; // Replace with your ShadCN modal component
-import { Input } from "@/components/ui/Input"; // Replace with your ShadCN input component
-import { Button } from "@/components/ui/Button"; // Replace with your ShadCN button component
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";// Replace with your ShadCN input component
+import { Button } from "@/components/ui/button"; // Replace with your ShadCN button component
 
 import OffersCarousel from "@/components/user/OffersCarousel";
 import ActionButtons from "@/components/menu/ActionButtons";
