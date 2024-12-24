@@ -34,6 +34,7 @@ import { useGetAllOffers } from "@/hooks/offer/useGetAllOffers";
 ;
 import { Spinner } from "@/components/ui/spinner";
 import OccupiedDialog from "../../component/OccupiedDialog";
+import UserPageSkeleton from "@/app/user/loading";
 
 export default function UserPage() {
   const { hotelId, tableId } = useParams();
@@ -103,7 +104,10 @@ export default function UserPage() {
     clearOrders();
   };
 
-  if (!tableId || !table) return <Spinner />;
+  // if (!tableId || !table) return <Spinner />;
+  if (dishesLoading || categoryLoading || tableLoading || offerLoading) {
+    return <UserPageSkeleton />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
