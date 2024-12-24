@@ -18,7 +18,9 @@ export default function ActionButtons() {
         View Full Menu
       </Button>
       
-      <Button 
+
+      {/* qr code buttton removed from user page */}
+      {/* <Button 
         size="lg"
         variant="outline"
         className="w-full max-w-xs mx-auto shadow-sm hover:shadow-md transition-shadow"
@@ -26,7 +28,7 @@ export default function ActionButtons() {
       >
         <QrCode className="h-5 w-5 mr-2" />
         Scan QR Code
-      </Button>
+      </Button> */}
     </div>
   );
 }
