@@ -31,7 +31,7 @@ export default function DishesSection({ dishes, selectedCategory, onAddToOrder }
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {filteredDishes.map((dish) => (
           <DishCard
-            key={dish.id}
+            key={dish._id}
             dish={dish}
             onAddClick={() => handleAddClick(dish)}
           />

@@ -16,9 +16,9 @@ export default function OffersCarousel({ offers }) {
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {offers.map((offer) => (
-          <CarouselSlide key={offer.id} offer={offer} />
+          <CarouselSlide key={offer._id} offer={offer} />
         ))}
-      </div>
+      </div>  
 
       <CarouselControls onPrev={prevSlide} onNext={nextSlide} />
       <CarouselIndicators

@@ -93,6 +93,7 @@ const MyOrderPage = () => {
             onUpdateCart={updateCart}
             tableId={tableId}
             hotelId={hotelId}
+            setCartOrder={setCartOrder}
           />
         ) : (
           <div className="flex flex-col items-center justify-center text-center text-gray-600 p-6">
