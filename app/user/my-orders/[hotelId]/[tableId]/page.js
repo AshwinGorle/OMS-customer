@@ -11,6 +11,8 @@ import OrderConfirmationDialog from "@/components/user/orders/OrderConfirmationD
 
 import { ArrowLeft } from "lucide-react";
 import { ShoppingCart } from "lucide-react";
+import UserPageSkeleton from "@/app/user/loading";
+
 
 
 const MyOrderPage = () => {
@@ -33,6 +35,12 @@ const MyOrderPage = () => {
     setCartOrder(updatedItems);
     localStorage.setItem('cart', JSON.stringify({ items: updatedItems }));
   };
+
+  // adding shimmer to user page
+  if (tableOrderLoading) {
+    return <UserPageSkeleton />;
+  }
+
 
   return (
     <div className="container mx-auto p-4">

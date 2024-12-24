@@ -19,9 +19,13 @@ export default function DishesSection({ dishes, selectedCategory, onAddToOrder }
     setSelectedDish(null);
   };
 
+  // const filteredDishes = selectedCategory
+  //   ? dishes.filter(dish => dish.category._id.toString() === selectedCategory._id.toString())
+  //   : [];
+
   const filteredDishes = selectedCategory
-    ? dishes.filter(dish => dish.category._id.toString() === selectedCategory._id.toString())
-    : [];
+  ? dishes.filter(dish => dish.category && selectedCategory && dish.category._id.toString() === selectedCategory._id.toString())
+  : [];
 
   if (!selectedCategory) return null;
 
