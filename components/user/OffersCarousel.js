@@ -12,8 +12,7 @@ export default function OffersCarousel({ offers }) {
 
   return (
     <div className="relative w-full h-48 overflow-hidden rounded-lg">
-      <div
-        className="flex transition-transform duration-500 ease-out h-full"
+      <div className="flex transition-transform duration-500 ease-out h-full"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {offers.map((offer) => (
