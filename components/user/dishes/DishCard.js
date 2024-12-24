@@ -7,6 +7,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { formatPrice } from "@/lib/utils/price";
 
 export default function DishCard({ dish, onAddClick }) {
+
+  // dish object 
+  console.log(dish);
+
+
   return (
     <Card className="overflow-hidden h-full">
       <div className="relative h-20 sm:h-28 w-full">
