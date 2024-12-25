@@ -130,9 +130,9 @@ export default function UserPage() {
     : []);
 
   // if (!tableId || !table) return <Spinner />;
-  if (dishesLoading || categoryLoading || tableLoading || offerLoading) {
-    return <UserPageSkeleton />;
-  }
+  // if (dishesLoading || categoryLoading || tableLoading || offerLoading) {
+  //   return <UserPageSkeleton />;
+  // }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
