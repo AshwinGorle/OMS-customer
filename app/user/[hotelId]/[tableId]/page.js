@@ -2,12 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogHeader,
-//   DialogTitle,
-// } // Replace with your ShadCN modal component
 import {
   Dialog,
   DialogContent,
