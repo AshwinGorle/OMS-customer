@@ -71,13 +71,13 @@ export default function UserPage() {
         }
         setOpenOccupiedDialog(false);
         setLoadContent(true); // Table is free, load content
-      } else {
+      } else if(table.status == 'occupied') {
         if (!customer) {
           setOpenOccupiedDialog(true);
           return;
         } else {
           customer = JSON.parse(customer);
-          if (customer._id.toString() !== table.customer._id.toString()) {
+          if (customer?._id?.toString() !== table?.customer?._id?.toString()) {
             setOpenOccupiedDialog(true);
           } else {
             setLoadContent(true); // Authorized customer, load content
