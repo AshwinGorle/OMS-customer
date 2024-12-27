@@ -16,6 +16,7 @@ export default function OccupiedDialog({
   tableNumber,
   customerName,
 }) {
+  console.log("occupied dialog ---", open)
   return (
     <Dialog open={open}>
       <DialogHeader>

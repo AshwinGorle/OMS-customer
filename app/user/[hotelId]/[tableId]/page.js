@@ -34,23 +34,35 @@ import TableLoader from "./component/TableLoader";
 
 export default function UserPage() {
   const { hotelId, tableId } = useParams();
+  const [openOccupiedDialog, setOpenOccupiedDialog] = useState(false);
 
   //State to decide when to call the offer, dishes and categories
   const [loadContent, setLoadContent] = useState(false); // we will note load dishes, offers, category until it becomes true
 
   //calling data hooks
   const { loading: tableLoading, table } = useGetTable(tableId);
-  const { loading: dishesLoading, dishes } = useGetAllDishes("dish",hotelId,loadContent);
-  const { loading: offerLoading, offers } = useGetAllOffers("offer",hotelId,loadContent);
-  const { loading: categoryLoading, categories } = useGetAllCategories("category",hotelId,loadContent);
-  
+  const { loading: dishesLoading, dishes } = useGetAllDishes(
+    "dish",
+    hotelId,
+    loadContent
+  );
+  const { loading: offerLoading, offers } = useGetAllOffers(
+    "offer",
+    hotelId,
+    loadContent
+  );
+  const { loading: categoryLoading, categories } = useGetAllCategories(
+    "category",
+    hotelId,
+    loadContent
+  );
+
   //local states for managing dialogs
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isOrdersDialogOpen, setIsOrdersDialogOpen] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [customerName, setCustomerName] = useState("");
-  const [openOccupiedDialog, setOpenOccupiedDialog] = useState(false);
 
   const {
     orders,
@@ -65,20 +77,29 @@ export default function UserPage() {
     if (table) {
       let customer = localStorage.getItem("customer");
       if (table.status === "free") {
+        console.log("inside free status");
         const storedCustomerName = localStorage.getItem("customerName");
         if (!storedCustomerName) {
           setIsNameModalOpen(true);
         }
         setOpenOccupiedDialog(false);
         setLoadContent(true); // Table is free, load content
-      } else if(table.status == 'occupied') {
+      } else if (table.status === "occupied") {
+        console.log("occupied section");
         if (!customer) {
           setOpenOccupiedDialog(true);
           return;
         } else {
           customer = JSON.parse(customer);
+          console.log("customer : ", customer);
+          console.log("table customer :::::", table?.customer);
           if (customer?._id?.toString() !== table?.customer?._id?.toString()) {
+            console.log("setting the dialog open in cs compare :::::");
             setOpenOccupiedDialog(true);
+            console.log(
+              "setting the dialog open in cs compare :::::",
+              openOccupiedDialog
+            );
           } else {
             setLoadContent(true); // Authorized customer, load content
           }
@@ -102,10 +123,12 @@ export default function UserPage() {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    if(displayFromCategory) setDisplayFromCategory(false); 
-    setFilteredDishes(dishes.filter((dish) =>
-      dish.name.toLowerCase().includes(query.toLowerCase())
-    ))
+    if (displayFromCategory) setDisplayFromCategory(false);
+    setFilteredDishes(
+      dishes.filter((dish) =>
+        dish.name.toLowerCase().includes(query.toLowerCase())
+      )
+    );
   };
 
   const handleCategoryClick = (category) => {
@@ -120,7 +143,8 @@ export default function UserPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   if (tableLoading || !table) return <TableLoader />;
-  if (dishesLoading || offerLoading || categoryLoading) return <UserPageSkeleton />;
+  if (dishesLoading || offerLoading || categoryLoading)
+    return <UserPageSkeleton />;
   if (loadContent) {
     return (
       <div className="min-h-screen bg-gray-50 pb-28">
@@ -150,7 +174,11 @@ export default function UserPage() {
             selectedCategory={selectedCategory}
             onCategoryClick={handleCategoryClick}
           />
-          <SearchDish onSearch={handleSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+          <SearchDish
+            onSearch={handleSearch}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
           {displayFromCategory && selectedCategory && (
             <DishesSection
               dishes={dishes}
@@ -194,7 +222,16 @@ export default function UserPage() {
       </div>
     );
   }
-  return <TableLoader />;
+  return (
+    <div>
+      <TableLoader/>
+      <OccupiedDialog
+          open={openOccupiedDialog}
+          customerName={table?.customer?.name}
+          tableNumber={table.sequence}
+        />
+    </div>
+  );
 }
 
 // --------------------- bhai ye search functionality wala code hai ---------------------
