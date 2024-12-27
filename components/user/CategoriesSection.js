@@ -12,7 +12,7 @@ export default function CategoriesSection({ categories, selectedCategory, onCate
             key={category._id}
             category={category}
             isSelected={selectedCategory?._id === category._id}
-            onClick={onCategoryClick}
+            onClick={()=>onCategoryClick(category)}
           />
         ))}
       </div>

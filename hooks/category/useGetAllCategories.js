@@ -5,7 +5,7 @@ import { categoryActions } from "@/redux/slices/categorySlice";
 import { getAllCategories } from "@/redux/actions/category";
 
 
-export const useGetAllCategories = (type="category", hotelId) => {
+export const useGetAllCategories = (type="category", hotelId, loadContent) => {
     const params = {}
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -15,14 +15,14 @@ export const useGetAllCategories = (type="category", hotelId) => {
     const { toast } = useToast();
 
     const fetchAllCategories = useCallback(() => {
-        if (type == 'category' && (!data || refresh)) {
+        if (loadContent && !data ) {
             dispatch(getAllCategories(hotelId));
         }
-    }, [dispatch, data, refresh]);
+    }, [dispatch, data, refresh, loadContent]);
 
     useEffect(() => {
         fetchAllCategories();
-    }, [fetchAllCategories]);
+    }, [fetchAllCategories, loadContent]);
 
     useEffect(() => {
         if (status === "pending") {
@@ -30,11 +30,11 @@ export const useGetAllCategories = (type="category", hotelId) => {
         } else if (status === "success") {
             setLoading(false);
             setRefresh && setRefresh(false);
-            toast({
-                title: "Success",
-                description: "Categories fetched successfully.",
-                variant: "success",
-            });
+            // toast({
+            //     title: "Success",
+            //     description: "Categories fetched successfully.",
+            //     variant: "success",
+            // });
             dispatch(categoryActions.clearGetAllCategoriesStatus());
             dispatch(categoryActions.clearGetAllCategoriesError());
         } else if (status === "failed") {

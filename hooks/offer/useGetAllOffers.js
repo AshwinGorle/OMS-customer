@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { offerActions } from "@/redux/slices/offerSlice";
 import { getAllOffers } from "@/redux/actions/offer"; // Ensure this matches your action import
 
-export const useGetAllOffers = (type = "offer", hotelId) => {
+export const useGetAllOffers = (type = "offer", hotelId, loadContent) => {
     const params = {}
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -13,16 +13,15 @@ export const useGetAllOffers = (type = "offer", hotelId) => {
     const { status, error, data } = useSelector((state) => state.offer.getAllOffers); // Directly use this
     const { toast } = useToast();
 
-    const fetchAllOffers = useCallback(() => {
-        console.log("checking -----", type)
-        if (type == 'offer' && (!data || refresh)) {
+    const fetchAllOffers = () => {
+        if (loadContent && !data) {
             dispatch(getAllOffers(hotelId));
         }
-    }, [dispatch, data, refresh]);
+    }
 
     useEffect(() => {
         fetchAllOffers();
-    }, [fetchAllOffers]);
+    }, [fetchAllOffers, loadContent]);
 
     useEffect(() => {
         if (status === "pending") {
@@ -30,11 +29,11 @@ export const useGetAllOffers = (type = "offer", hotelId) => {
         } else if (status === "success") {
             setLoading(false);
             setRefresh && setRefresh(false);
-            toast({
-                title: "Success",
-                description: "Offers fetched successfully.",
-                variant: "success",
-            });
+            // toast({
+            //     title: "Success",
+            //     description: "Offers fetched successfully.",
+            //     variant: "success",
+            // });
             dispatch(offerActions.clearGetAllOffersStatus());
             dispatch(offerActions.clearGetAllOffersError());
         } else if (status === "failed") {

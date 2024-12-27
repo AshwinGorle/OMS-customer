@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { dishActions } from "@/redux/slices/dishSlice";
 import { getAllDishes } from "@/redux/actions/dish";
 
-export const useGetAllDishes = (type = "dish", hotelId) => {
+export const useGetAllDishes = (type = "dish", hotelId, loadContent = false) => {
     const params = {}
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -13,15 +13,16 @@ export const useGetAllDishes = (type = "dish", hotelId) => {
     const { status, error, data } = useSelector((state) => state.dish.getAllDishes); // Directly use this
     const { toast } = useToast();
 
-    const fetchAllDishes = useCallback(() => {
-        if ( type == 'dish' && (!data || refresh)) {
+    const fetchAllDishes = () => {
+        console.log("loadcontent in dishes : ", loadContent)
+        if ( loadContent  && !data ) {
             dispatch(getAllDishes(hotelId));
         }
-    }, [dispatch, data, refresh]);
+    }
 
     useEffect(() => {
         fetchAllDishes();
-    }, [fetchAllDishes]);
+    }, [fetchAllDishes, loadContent]);
 
     useEffect(() => {
         if (status === "pending") {
@@ -29,11 +30,11 @@ export const useGetAllDishes = (type = "dish", hotelId) => {
         } else if (status === "success") {
             setLoading(false);
             setRefresh && setRefresh(false);
-            toast({
-                title: "Success",
-                description: "Dishes fetched successfully.",
-                variant: "success",
-            });
+            // toast({
+            //     title: "Success",
+            //     description: "Dishes fetched successfully.",
+            //     variant: "success",
+            // });
             dispatch(dishActions.clearGetAllDishesStatus());
             dispatch(dishActions.clearGetAllDishesError());
         } else if (status === "failed") {

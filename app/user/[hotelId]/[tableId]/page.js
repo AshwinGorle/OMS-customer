@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";// Replace with your ShadCN input component
+import { Input } from "@/components/ui/input"; // Replace with your ShadCN input component
 import { Button } from "@/components/ui/button"; // Replace with your ShadCN button component
 
 import OffersCarousel from "@/components/user/OffersCarousel";
@@ -26,24 +26,37 @@ import { useGetAllCategories } from "@/hooks/category/useGetAllCategories";
 import { useGetTable } from "@/hooks/table/useGetTable";
 import { useGetAllOffers } from "@/hooks/offer/useGetAllOffers";
 import OccupiedDialog from "../../component/OccupiedDialog";
-import UserPageSkeleton from "@/app/user/loading";
 
 import SearchDish from "@/components/user/SearchDish";
 import SearchResults from "@/components/user/SearchResults";
+import UserPageSkeleton from "@/components/user/skeletons/UserPageSkeleton";
+import { Spinner } from "@/components/ui/spinner";
+import TableLoader from "./component/TableLoader";
+import CompleteTableShimmer from "./component/CompleteTableShimmer";
+import { toast } from "@/hooks/use-toast";
 
 export default function UserPage() {
   const { hotelId, tableId } = useParams();
+  const [loadContent, setLoadContent] = useState(false); // we will note load dishes, offers, category until it becomes true
+
+  const { loading: tableLoading, table } = useGetTable(tableId);
   console.log("table ", tableId, " hotel ", hotelId);
-  const router = useRouter();
-  const { loading: dishesLoading, dishes } = useGetAllDishes("dish", hotelId);
+
+  const { loading: dishesLoading, dishes } = useGetAllDishes(
+    "dish",
+    hotelId,
+    loadContent
+  );
+  const { loading: offerLoading, offers } = useGetAllOffers(
+    "offer",
+    hotelId,
+    loadContent
+  );
   const { loading: categoryLoading, categories } = useGetAllCategories(
     "category",
-    hotelId
+    hotelId,
+    loadContent
   );
-  const { loading: tableLoading, table } = useGetTable(tableId);
-  const { loading: offerLoading, offers } = useGetAllOffers("offer", hotelId);
-
-
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isOrdersDialogOpen, setIsOrdersDialogOpen] = useState(false);
@@ -52,10 +65,6 @@ export default function UserPage() {
   const [customerName, setCustomerName] = useState("");
   const [openOccupiedDialog, setOpenOccupiedDialog] = useState(false);
   // const [searchQuery, setSearchQuery] = useState("");
-
-
-  // search dish by name
-  const [searchResults, setSearchResults] = useState(null);
 
   const {
     orders,
@@ -66,41 +75,27 @@ export default function UserPage() {
     getTotalItems,
   } = useOrders();
 
-  // handle search function
-  const handleSearch = (query) => {
-    if (!query.trim()) {
-      setSearchResults(null);
-      return;
-    }
-
-    const results = dishes.filter(dish => 
-      dish.name.toLowerCase().includes(query.toLowerCase())
-    );
-    setSearchResults(results);
-    setSelectedCategory(null);
-  };
-
-
-  // Check localStorage for customerName on page load
   useEffect(() => {
     if (table) {
       let customer = localStorage.getItem("customer");
-      if (table.status == "occupied") {
+      if (table.status === "free") {
+        const storedCustomerName = localStorage.getItem("customerName");
+        if (!storedCustomerName) {
+          setIsNameModalOpen(true);
+        }
+        setOpenOccupiedDialog(false);
+        setLoadContent(true); // Table is free, load content
+      } else {
         if (!customer) {
-          console.log("redirect 1");
           setOpenOccupiedDialog(true);
           return;
         } else {
           customer = JSON.parse(customer);
-          if (customer._id.toString() != table.customer._id.toString()) {
-            console.log("redirect 2");
+          if (customer._id.toString() !== table.customer._id.toString()) {
             setOpenOccupiedDialog(true);
+          } else {
+            setLoadContent(true); // Authorized customer, load content
           }
-        }
-      } else {
-        const storedCustomerName = localStorage.getItem("customerName");
-        if (!storedCustomerName) {
-          setIsNameModalOpen(true);
         }
       }
     }
@@ -119,78 +114,86 @@ export default function UserPage() {
     clearOrders();
   };
 
-  const displayedDishes = searchResults || (selectedCategory 
-    ? dishes.filter(dish => dish.categoryId === selectedCategory.id)
-    : []);
+  // const displayedDishes =
+  //   searchResults ||
+  //   (selectedCategory
+  //     ? dishes.filter((dish) => dish.categoryId === selectedCategory.id)
+  //     : []);
 
-  // if (!tableId || !table) return <Spinner />;
-  // if (dishesLoading || categoryLoading || tableLoading || offerLoading) {
-  //   return <UserPageSkeleton />;
-  // }
+  if (!tableId || !table) {
+    console.log("returning spinner");
+    return <Spinner />;
+  }
 
-  return (
-    <div className="min-h-screen bg-gray-50 pb-28">
-      {/* Customer Name Modal */}
-      <Dialog open={isNameModalOpen} onOpenChange={setIsNameModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Enter Your Name</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <Input
-              type="text"
-              placeholder="Your Name"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
+  const [displayFromCategory, setDisplayFromCategory] = useState(true);
+  const [filteredDishes, setFilteredDishes] = useState(dishes);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if(displayFromCategory) setDisplayFromCategory(false);
+    const resultDishes = dishes.filter((dish) =>
+      dish.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredDishes(resultDishes);
+  };
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setSearchQuery("");
+    setDisplayFromCategory(true);
+  };
+
+  if (tableLoading || !table) return <TableLoader />;
+  if (dishesLoading || offerLoading || categoryLoading)
+    return <UserPageSkeleton />;
+  if (loadContent) {
+    return (
+      <div className="min-h-screen bg-gray-50 pb-28">
+        <Dialog open={isNameModalOpen} onOpenChange={setIsNameModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Enter Your Name</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <Input
+                type="text"
+                placeholder="Your Name"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+              />
+              <Button onClick={handleSaveName} className="w-full">
+                Save Name
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <div className="p-4 space-y-6">
+          <OffersCarousel offers={offers} />
+          <ActionButtons />
+          <CategoriesSection
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryClick={handleCategoryClick}
+          />
+          <SearchDish onSearch={handleSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+          {displayFromCategory && selectedCategory && (
+            <DishesSection
+              dishes={dishes}
+              selectedCategory={selectedCategory}
+              onAddToOrder={addToOrder}
             />
-            <Button onClick={handleSaveName} className="w-full">
-              Save Name
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <div className="p-4 space-y-6">
-        <OffersCarousel offers={offers} />
-        <ActionButtons />
-        {/* <CategoriesSection
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryClick={setSelectedCategory}
-        />
-        {selectedCategory ? (
-          <DishesSection
-            dishes={dishes}
-            selectedCategory={selectedCategory}
-            onAddToOrder={addToOrder}
-          />
-        ) : (
-          <EmptyCategory />
-        )}
-      </div> */}
-       <CategoriesSection 
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryClick={setSelectedCategory}
-        />
-        <SearchDish onSearch={handleSearch} />
-        {searchResults ? (
-          <SearchResults 
-            results={searchResults} 
-            onAddToOrder={addToOrder} 
-          />
-        ) : selectedCategory ? (
-          <DishesSection 
-            dishes={displayedDishes}
-            selectedCategory={selectedCategory}
-            onAddToOrder={addToOrder}
-          />
-        ) : (
-          <EmptyCategory />
-        )}
-      </div>
-
-      {tableId && hotelId && (
+          )}
+          {!displayFromCategory && filteredDishes && (
+            <DishesSection
+              dishes={filteredDishes}
+              selectedCategory={selectedCategory}
+              onAddToOrder={addToOrder}
+              type={"filter"}
+            />
+          )}
+        </div>
         <OrdersButton
           onOrdersClick={() => setIsOrdersDialogOpen(true)}
           onBillClick={() => console.log("View bill")}
@@ -198,30 +201,28 @@ export default function UserPage() {
           tableId={tableId}
           hotelId={hotelId}
         />
-      )}
-
-      <OrdersDialog
-        open={isOrdersDialogOpen}
-        onOpenChange={setIsOrdersDialogOpen}
-        orders={orders}
-        onUpdateQuantity={updateQuantity}
-        onRemoveItem={removeItem}
-        onProceedOrder={handleProceedOrder}
-      />
-
-      <OrderSuccessDialog
-        open={isSuccessDialogOpen}
-        onOpenChange={setIsSuccessDialogOpen}
-      />
-
-      <OccupiedDialog open={openOccupiedDialog} customerName={table?.customer?.name} tableNumber={table.sequence}/>
-    </div>
-  );
+        <OrdersDialog
+          open={isOrdersDialogOpen}
+          onOpenChange={setIsOrdersDialogOpen}
+          orders={orders}
+          onUpdateQuantity={updateQuantity}
+          onRemoveItem={removeItem}
+          onProceedOrder={handleProceedOrder}
+        />
+        <OrderSuccessDialog
+          open={isSuccessDialogOpen}
+          onOpenChange={setIsSuccessDialogOpen}
+        />
+        <OccupiedDialog
+          open={openOccupiedDialog}
+          customerName={table?.customer?.name}
+          tableNumber={table.sequence}
+        />
+      </div>
+    );
+  }
+  return <TableLoader />;
 }
-
-
-
-
 
 // --------------------- bhai ye search functionality wala code hai ---------------------
 //-------sahi lage toh ye un comment karke use karlena-------------------------------------------------------------------------
@@ -337,15 +338,15 @@ export default function UserPage() {
 //   // Get filtered dishes based on search or category
 //   const getFilteredDishes = () => {
 //     if (searchQuery.trim()) {
-//       return dishes.filter(dish => 
+//       return dishes.filter(dish =>
 //         dish.name.toLowerCase().includes(searchQuery.toLowerCase())
 //       );
 //     }
-    
+
 //     if (selectedCategory) {
 //       return dishes.filter(dish => dish.categoryId === selectedCategory.id);
 //     }
-    
+
 //     return [];
 //   };
 
@@ -359,8 +360,8 @@ export default function UserPage() {
 //     if (searchQuery.trim()) {
 //       const searchResults = getFilteredDishes();
 //       return (
-//         <SearchResults 
-//           results={searchResults} 
+//         <SearchResults
+//           results={searchResults}
 //           onAddToOrder={addToOrder}
 //         />
 //       );
@@ -368,7 +369,7 @@ export default function UserPage() {
 
 //     if (selectedCategory) {
 //       return (
-//         <DishesSection 
+//         <DishesSection
 //           dishes={getFilteredDishes()}
 //           selectedCategory={selectedCategory}
 //           onAddToOrder={addToOrder}
@@ -404,12 +405,12 @@ export default function UserPage() {
 //       <div className="p-4 space-y-6">
 //         <OffersCarousel offers={offers} />
 //         <ActionButtons />
-//         <CategoriesSection 
+//         <CategoriesSection
 //           categories={categories}
 //           selectedCategory={selectedCategory}
 //           onCategoryClick={handleCategoryClick}
 //         />
-//         <SearchDish 
+//         <SearchDish
 //           onSearch={handleSearch}
 //           value={searchQuery}
 //           onChange={setSearchQuery}
@@ -441,9 +442,9 @@ export default function UserPage() {
 //         onOpenChange={setIsSuccessDialogOpen}
 //       />
 
-//       <OccupiedDialog 
-//         open={openOccupiedDialog} 
-//         customerName={table?.customer?.name} 
+//       <OccupiedDialog
+//         open={openOccupiedDialog}
+//         customerName={table?.customer?.name}
 //         tableNumber={table?.sequence}
 //       />
 //     </div>

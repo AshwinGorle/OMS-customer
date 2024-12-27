@@ -29,11 +29,11 @@ export const useGetTable = (tableId) => {
         } else if (status === "success") {
             setLoading(false);
             // setRefresh && setRefresh(false);
-            toast({
-                title: "Success",
-                description: "table fetched successfully.",
-                variant: "success",
-            });
+            // toast({
+            //     title: "Success",
+            //     description: "table fetched successfully.",
+            //     variant: "success",
+            // });
             dispatch(tableActions.clearGetTableStatus());
             dispatch(tableActions.clearGetTableError());
         } else if (status === "failed") {
