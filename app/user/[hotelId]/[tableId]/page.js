@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -28,43 +28,29 @@ import { useGetAllOffers } from "@/hooks/offer/useGetAllOffers";
 import OccupiedDialog from "../../component/OccupiedDialog";
 
 import SearchDish from "@/components/user/SearchDish";
-import SearchResults from "@/components/user/SearchResults";
 import UserPageSkeleton from "@/components/user/skeletons/UserPageSkeleton";
 import { Spinner } from "@/components/ui/spinner";
 import TableLoader from "./component/TableLoader";
-import CompleteTableShimmer from "./component/CompleteTableShimmer";
-import { toast } from "@/hooks/use-toast";
 
 export default function UserPage() {
   const { hotelId, tableId } = useParams();
+
+  //State to decide when to call the offer, dishes and categories
   const [loadContent, setLoadContent] = useState(false); // we will note load dishes, offers, category until it becomes true
 
+  //calling data hooks
   const { loading: tableLoading, table } = useGetTable(tableId);
-  console.log("table ", tableId, " hotel ", hotelId);
-
-  const { loading: dishesLoading, dishes } = useGetAllDishes(
-    "dish",
-    hotelId,
-    loadContent
-  );
-  const { loading: offerLoading, offers } = useGetAllOffers(
-    "offer",
-    hotelId,
-    loadContent
-  );
-  const { loading: categoryLoading, categories } = useGetAllCategories(
-    "category",
-    hotelId,
-    loadContent
-  );
-
+  const { loading: dishesLoading, dishes } = useGetAllDishes("dish",hotelId,loadContent);
+  const { loading: offerLoading, offers } = useGetAllOffers("offer",hotelId,loadContent);
+  const { loading: categoryLoading, categories } = useGetAllCategories("category",hotelId,loadContent);
+  
+  //local states for managing dialogs
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isOrdersDialogOpen, setIsOrdersDialogOpen] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [customerName, setCustomerName] = useState("");
   const [openOccupiedDialog, setOpenOccupiedDialog] = useState(false);
-  // const [searchQuery, setSearchQuery] = useState("");
 
   const {
     orders,
@@ -114,39 +100,27 @@ export default function UserPage() {
     clearOrders();
   };
 
-  // const displayedDishes =
-  //   searchResults ||
-  //   (selectedCategory
-  //     ? dishes.filter((dish) => dish.categoryId === selectedCategory.id)
-  //     : []);
-
-  if (!tableId || !table) {
-    console.log("returning spinner");
-    return <Spinner />;
-  }
-
-  const [displayFromCategory, setDisplayFromCategory] = useState(true);
-  const [filteredDishes, setFilteredDishes] = useState(dishes);
-  const [searchQuery, setSearchQuery] = useState("");
-
   const handleSearch = (query) => {
     setSearchQuery(query);
-    if(displayFromCategory) setDisplayFromCategory(false);
-    const resultDishes = dishes.filter((dish) =>
+    if(displayFromCategory) setDisplayFromCategory(false); 
+    setFilteredDishes(dishes.filter((dish) =>
       dish.name.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredDishes(resultDishes);
+    ))
   };
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    setSearchQuery("");
     setDisplayFromCategory(true);
+    setSearchQuery("");
   };
 
+  // for search implementation
+  const [displayFromCategory, setDisplayFromCategory] = useState(true);
+  const [filteredDishes, setFilteredDishes] = useState(dishes || []);
+  const [searchQuery, setSearchQuery] = useState("");
+
   if (tableLoading || !table) return <TableLoader />;
-  if (dishesLoading || offerLoading || categoryLoading)
-    return <UserPageSkeleton />;
+  if (dishesLoading || offerLoading || categoryLoading) return <UserPageSkeleton />;
   if (loadContent) {
     return (
       <div className="min-h-screen bg-gray-50 pb-28">
@@ -168,7 +142,6 @@ export default function UserPage() {
             </div>
           </DialogContent>
         </Dialog>
-
         <div className="p-4 space-y-6">
           <OffersCarousel offers={offers} />
           <ActionButtons />
