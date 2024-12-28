@@ -12,6 +12,8 @@ import OrderConfirmationDialog from "@/components/user/orders/OrderConfirmationD
 import { ArrowLeft } from "lucide-react";
 import { ShoppingCart } from "lucide-react";
 import UserPageSkeleton from "@/app/user/loading";
+import { DeleteOrderModal } from "@/components/user/DeleteOrderModal";
+import { useSelector } from "react-redux";
 
 
 
@@ -19,6 +21,7 @@ const MyOrderPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { tableId, hotelId } = useParams();
+  const {cart, update} =useSelector((state)=> state.order.cartDetails)
 
   const {loading : tableOrderLoading, orders : tableOrders} = useGetTableOrders(tableId);
 
@@ -28,8 +31,8 @@ const MyOrderPage = () => {
 
   useEffect(() => {
     const ordersFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || { items: [] };
-    setCartOrder(ordersFromLocalStorage.items);
-  }, []);
+      setCartOrder(ordersFromLocalStorage.items);
+  }, [cart, update]);
 
   const updateCart = (updatedItems) => {
     setCartOrder(updatedItems);
@@ -83,6 +86,7 @@ const MyOrderPage = () => {
       {tableOrders && tableOrders.length && <OrderList orders={tableOrders}></OrderList>}
       
       <OrderConfirmationDialog/>
+      <DeleteOrderModal/>
     </div>
   );
 };

@@ -52,6 +52,16 @@ const initialOrder = {
     error : null,
     data : null,
   },
+  
+  deleteOrderDialogDetails : {
+    order : null,
+    open : false,
+  }, 
+
+  cartDetails  : {
+    cart : null,
+    update : false 
+  },
 
   openEditOrderDialog : false,
   selectedEditOrder : null,
@@ -66,6 +76,26 @@ const orderSlice = createSlice({
   name: "order",
   initialState: initialOrder,
   reducers: {
+    // when we click on edit in cart we have to display this changes in the cart ui
+    setCartDetails : (state, action) => {
+      state.cartDetails.cart = action.payload
+      state.cartDetails.update = true;
+    },
+    clearCartDetails : (state) => {
+      state.cartDetails.cart = null
+      state.cartDetails.update = false
+    },
+
+    // for delete order dialog
+    closeDeleteOrderDialog : (state)=>{
+      state.deleteOrderDialogDetails.open = false;
+      state.deleteOrderDialogDetails.order = null;;
+    },
+    openDeleteOrderDialog : (state, action)=>{
+      state.deleteOrderDialogDetails.open = true;
+      state.deleteOrderDialogDetails.order = action.payload;;
+    },
+     
     // createOrder
     createOrderRequest: (state) => {
       state.createOrder.status = "pending";
