@@ -49,9 +49,9 @@ export default function OrderConfirmationDialog() {
       onOpenChange={() => dispatch(orderActions.closeOrderConfirmationDialog())}
     >
       <DialogHeader>
-        <DialogTitle className="text-lg font-semibold mt-3">
+        {/* <DialogTitle className="text-lg font-semibold mt-3">
           Confirm Your Order
-        </DialogTitle>
+        </DialogTitle> */}
       </DialogHeader>
       <DialogContent className="max-w-xs w-full mx-auto text-center p-4 space-y-4">
         <div className="text-sm text-gray-700">
