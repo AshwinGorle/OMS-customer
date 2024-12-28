@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { defaultCategoryImage } from "@/config";
 
 export default function CategoryItem({ category, isSelected, onClick }) {
   return (
@@ -14,7 +15,7 @@ export default function CategoryItem({ category, isSelected, onClick }) {
         isSelected ? "ring-primary" : "ring-gray-200"
       )}>
         <Image
-          src={category.logo}
+          src={category.logo || defaultCategoryImage}
           alt={category.name}
           fill
           className="object-cover"

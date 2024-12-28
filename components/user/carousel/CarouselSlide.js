@@ -1,12 +1,13 @@
 "use client";
 
+import { defaultDishImage } from "@/config";
 import Image from "next/image";
 
 export default function CarouselSlide({ offer }) {
   return (
     <div className="w-full h-full flex-shrink-0 relative">
       <Image
-        src={offer.logo}
+        src={offer.logo || defaultDishImage}
         alt={offer.name}
         fill
         className="object-cover"

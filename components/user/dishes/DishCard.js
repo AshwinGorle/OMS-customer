@@ -149,6 +149,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils/price";
+import { defaultDishImage } from "@/config";
 
 export default function DishCard({ dish, onAddClick }) {
   const ingredientsList = dish.ingredients
@@ -160,8 +161,8 @@ export default function DishCard({ dish, onAddClick }) {
       <div className="relative">
         <div className="relative w-full h-40 sm:h-48">
           <Image
-            src={dish.logo}
-            alt={dish.name}
+            src={dish.logo || defaultDishImage}
+            alt={dish.name || 'sorry'}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

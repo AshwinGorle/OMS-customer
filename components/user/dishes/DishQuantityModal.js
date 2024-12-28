@@ -11,10 +11,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { formatPrice } from "@/lib/utils/price";
+import { defaultDishImage } from "@/config";
 
-export default function DishQuantityModal({ open, onOpenChange, dish, onOrder }) {
+export default function DishQuantityModal({
+  open,
+  onOpenChange,
+  dish,
+  onOrder,
+}) {
   const [quantity, setQuantity] = useState(1);
-  const ordersItems = [];
 
   const handleQuantityChange = (delta) => {
     const newQuantity = quantity + delta;
@@ -22,23 +27,30 @@ export default function DishQuantityModal({ open, onOpenChange, dish, onOrder })
       setQuantity(newQuantity);
     }
   };
-  
+
   const handleAddItemToCart = () => {
-    ordersItems.push({dish : dish, quantity : quantity});
-     // check cart exists or not
-     let cart = localStorage.getItem('cart');
-     // if exists then push item in that card
-     if (!cart){
-        const initialCart = {
-          items : []
-        }
-        localStorage.setItem('cart', JSON.stringify(initialCart));
-     }
-     cart = JSON.parse(localStorage.getItem('cart'));
-     cart.items.push({dish : dish, quantity : quantity});
-     localStorage.setItem('cart', JSON.stringify(cart));
-     setQuantity(1);
-     onOpenChange();
+    // check cart exists or not
+    let cart = localStorage.getItem("cart");
+    // if exists then push item in that card
+    if (!cart) {
+      const initialCart = {
+        items: [],
+      };
+      localStorage.setItem("cart", JSON.stringify(initialCart));
+    }
+    cart = JSON.parse(localStorage.getItem("cart"));
+    let isDishAlreadyPresent = false;
+    cart?.items?.forEach((cartItem, idx) => {
+      if (cartItem.dish._id.toString() === dish._id.toString()) {
+        cart.items[idx].quantity += quantity;// increment quantity
+        isDishAlreadyPresent = true;
+        return;
+      }
+    });
+    if(!isDishAlreadyPresent) cart.items.push({ dish: dish, quantity: quantity });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    setQuantity(1);
+    onOpenChange();
   };
 
   if (!dish) return null;
@@ -49,21 +61,25 @@ export default function DishQuantityModal({ open, onOpenChange, dish, onOrder })
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[90vw] max-w-xs mx-auto p-4 sm:p-6">
         <DialogHeader className="space-y-1">
-          <DialogTitle className="text-base sm:text-lg">Select Quantity</DialogTitle>
+          <DialogTitle className="text-base sm:text-lg">
+            Select Quantity
+          </DialogTitle>
         </DialogHeader>
         <div className="space-y-3 sm:space-y-4">
           <div className="relative h-32 sm:h-40 w-full rounded-lg overflow-hidden">
             <Image
-              src={dish.logo}
-              alt={dish.name}
+              src={dish.logo || defaultDishImage}
+              alt={dish.name || "dish"}
               fill
               className="object-cover"
             />
           </div>
-          
+
           <div>
             <h3 className="font-semibold text-sm sm:text-base">{dish.name}</h3>
-            <p className="text-xs sm:text-sm text-muted-foreground">{dish.description}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              {dish.description}
+            </p>
           </div>
 
           <div className="flex items-center justify-center gap-3">
