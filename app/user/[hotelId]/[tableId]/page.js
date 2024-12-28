@@ -148,7 +148,7 @@ export default function UserPage() {
   if (loadContent) {
     return (
       <div className="min-h-screen bg-gray-50 pb-28">
-        <Dialog open={isNameModalOpen} onOpenChange={setIsNameModalOpen}>
+        <Dialog open={isNameModalOpen} >
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Enter Your Name</DialogTitle>
