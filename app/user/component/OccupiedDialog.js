@@ -20,7 +20,7 @@ export default function OccupiedDialog({
   return (
     <Dialog open={open}>
       <DialogHeader>
-        <DialogTitle>{`Table ${tableNumber} Status`}</DialogTitle>
+        <DialogTitle>{``}</DialogTitle>
         </DialogHeader>
       <DialogContent>
           <Card className="w-full max-w-md">
