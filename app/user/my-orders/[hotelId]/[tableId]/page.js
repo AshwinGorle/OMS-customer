@@ -12,6 +12,7 @@
 import { ArrowLeft } from "lucide-react";
 import { ShoppingCart } from "lucide-react";
 import UserPageSkeleton from "@/app/user/loading";
+import MyOrderPageSkeleton from "@/components/user/skeletons/MyOrderPageSkeleton";
 import { DeleteOrderModal } from "@/components/user/DeleteOrderModal";
 import { useSelector } from "react-redux";
 
