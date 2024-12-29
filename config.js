@@ -1,1 +1,3 @@
 export const defaultImage = 'https://static.vecteezy.com/system/resources/previews/004/141/669/original/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg'
+export const defaultCategoryImage = 'https://res.cloudinary.com/dpgj9mrly/raw/upload/v1735400827/CRM/profile/OMS-Dishes/6765297893596bb4eb953cba/67652bc093596bb4eb953d19.png'
+export const defaultDishImage = 'https://img.freepik.com/premium-vector/dish-vector-art_684885-54.jpg?w=900'

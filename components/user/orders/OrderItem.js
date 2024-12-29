@@ -4,14 +4,15 @@ import Image from "next/image";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils/price";
+import { defaultDishImage } from "@/config";
 
 export default function OrderItem({ order, onUpdateQuantity, onRemoveItem }) {
   return (
     <div className="flex gap-4 p-2 border rounded-lg">
       <div className="relative h-20 w-20 flex-shrink-0">
         <Image
-          src={order.dish.image}
-          alt={order.dish.name}
+          src={order.dish.image || defaultDishImage}
+          alt={order.dish.name || 'Dish'}
           fill
           className="object-cover rounded-md"
         />

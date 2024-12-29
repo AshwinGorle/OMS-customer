@@ -81,6 +81,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { OrderCard } from './OrderCards'
 import { ChevronDown, ChevronUp, ClipboardList, Clock, CheckCircle, ClockArrowDownIcon } from 'lucide-react'
+import { Button } from '../ui/button'
 
 const statusIcons = {
   draft: ClipboardList,
@@ -96,7 +97,7 @@ const statusColors = {
   completed: "bg-green-50 dark:bg-green-900"
 }
 
-const StatusSection = ({ title, orders, icon: Icon, color }) => {
+const StatusSection = ({ status, title, orders, icon: Icon, color }) => {
   const [isExpanded, setIsExpanded] = useState(true)
 
   const contentHeight = useMemo(() => {
@@ -140,7 +141,7 @@ const StatusSection = ({ title, orders, icon: Icon, color }) => {
           <ScrollArea className={`${contentHeight} pr-4`}>
             {orders.map(order => (
               <div key={order._id} className="mb-4 last:mb-0">
-                <OrderCard order={order} />
+                <OrderCard order={order} status={status}/>
               </div>
             ))}
           </ScrollArea>
@@ -164,6 +165,7 @@ export function OrderList({ orders }) {
         statusOrders.length > 0 && (
           <StatusSection 
             key={status}
+            status={status}
             title={status.charAt(0).toUpperCase() + status.slice(1)}
             orders={statusOrders}
             icon={statusIcons[status]}

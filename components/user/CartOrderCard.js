@@ -340,6 +340,7 @@ import { toast } from "@/hooks/use-toast";
 import { useCreateOrder } from "@/hooks/order/useCreateOrder";
 import { Spinner } from "../ui/spinner";
 import { Input } from "../ui/input";
+import { defaultDishImage } from "@/config";
 
 export function CartOrderCard({ items: initialItems, onUpdateCart, hotelId, tableId, setCartOrder }) {
   const [items, setItems] = useState(initialItems);
@@ -407,8 +408,8 @@ export function CartOrderCard({ items: initialItems, onUpdateCart, hotelId, tabl
           <div key={item.dish._id} className="flex items-center space-x-2 bg-gray-50 p-2 rounded-md">
             <div className="relative w-16 h-16 flex-shrink-0">
               <Image
-                src={item.dish.logo}
-                alt={item.dish.name}
+                src={item.dish.logo || defaultDishImage}
+                alt={item.dish.name || 'Dish'}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-md"
