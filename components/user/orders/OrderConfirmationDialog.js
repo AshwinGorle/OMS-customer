@@ -50,7 +50,7 @@ export default function OrderConfirmationDialog() {
     >
       <DialogHeader>
         <DialogTitle className="text-lg font-semibold mt-3">
-          Confirm Your Order
+          {/* Confirm Your Order */}
         </DialogTitle>
       </DialogHeader>
       <DialogContent className="max-w-xs w-full mx-auto text-center p-4 space-y-4">

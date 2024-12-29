@@ -53,7 +53,7 @@ export function OrderCard({ order, status }) {
                 <Utensils className="w-4 h-4 text-muted-foreground" />
                 {dish.dishId.name} x{dish.quantity}
               </span>
-              <span>${(dish.dishId.price * dish.quantity).toFixed(2)}</span>
+              <span>₹ {(dish.dishId.price * dish.quantity).toFixed(2)}</span>
             </li>
           ))}
         </ul>

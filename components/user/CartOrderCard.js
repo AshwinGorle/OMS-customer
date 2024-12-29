@@ -335,7 +335,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Minus, Plus, Trash2 } from 'lucide-react';
+import { Minus, Plus, Trash2, IndianRupee } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 import { useCreateOrder } from "@/hooks/order/useCreateOrder";
 import { Spinner } from "../ui/spinner";
@@ -417,7 +417,7 @@ export function CartOrderCard({ items: initialItems, onUpdateCart, hotelId, tabl
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-medium text-sm text-gray-800 truncate">{item.dish.name}</h3>
-              <p className="text-xs text-gray-500">${item.dish.price.toFixed(2)}</p>
+              <p className="text-xs text-gray-500"> ₹ {item.dish.price.toFixed(2)}</p>
               {item.dish.bestSeller && (
                 <Badge variant="secondary" className="mt-1 text-xs bg-yellow-100 text-yellow-800">
                   Best Seller
@@ -473,7 +473,7 @@ export function CartOrderCard({ items: initialItems, onUpdateCart, hotelId, tabl
       <CardFooter className="flex flex-col items-stretch border-t border-gray-200 p-4">
         <div className="flex justify-between mb-3 text-sm font-semibold text-gray-800">
           <span>Total:</span>
-          <span>${totalAmount.toFixed(2)}</span>
+          <span>₹ {totalAmount.toFixed(2)}</span>
         </div>
         <Button
           onClick={handlePlaceOrder}
