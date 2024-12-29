@@ -54,7 +54,7 @@ export const getTable = (tableId) => async (dispatch) => {
     } catch (error) {
         console.log("action-get-table-error:", error);
         const errorMessage = getActionErrorMessage(error);
-        dispatch(tableActions.getAllTablesFailure(errorMessage));
+        dispatch(tableActions.getTableFailure(errorMessage));
     }
 };
 

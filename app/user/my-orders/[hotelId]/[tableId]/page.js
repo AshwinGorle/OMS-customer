@@ -13,12 +13,14 @@ import { ArrowLeft } from "lucide-react";
 import { ShoppingCart } from "lucide-react";
 import UserPageSkeleton from "@/app/user/loading";
 import { DeleteOrderModal } from "@/components/user/DeleteOrderModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { orderActions } from "@/redux/slices/orderSlice";
 
 
 
 const MyOrderPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const { tableId, hotelId } = useParams();
   const {cart, update} =useSelector((state)=> state.order.cartDetails)
@@ -32,10 +34,12 @@ const MyOrderPage = () => {
   useEffect(() => {
     const ordersFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || { items: [] };
       setCartOrder(ordersFromLocalStorage.items);
+      dispatch(orderActions.setCartItemsCount(ordersFromLocalStorage.items?.length));
   }, [cart, update]);
 
   const updateCart = (updatedItems) => {
     setCartOrder(updatedItems);
+    dispatch(orderActions.setCartItemsCount(updatedItems?.length));
     localStorage.setItem('cart', JSON.stringify({ items: updatedItems }));
   };
 

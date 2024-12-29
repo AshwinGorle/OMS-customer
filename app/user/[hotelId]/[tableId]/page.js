@@ -31,8 +31,10 @@ import SearchDish from "@/components/user/SearchDish";
 import UserPageSkeleton from "@/components/user/skeletons/UserPageSkeleton";
 import { Spinner } from "@/components/ui/spinner";
 import TableLoader from "./component/TableLoader";
-
+import { useDispatch } from "react-redux";
+import { orderActions } from "@/redux/slices/orderSlice";
 export default function UserPage() {
+  const dispatch = useDispatch();
   const { hotelId, tableId } = useParams();
   const [openOccupiedDialog, setOpenOccupiedDialog] = useState(false);
 
@@ -90,6 +92,7 @@ export default function UserPage() {
         }
         setOpenOccupiedDialog(false);
         setLoadContent(true); // Table is free, load content
+        dispatch(orderActions.initializeCartItemsCount());
       } else if (table.status === "occupied") {
         console.log("occupied section");
         if (!customer) {

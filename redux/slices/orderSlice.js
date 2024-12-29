@@ -69,13 +69,30 @@ const initialOrder = {
   orderConfirmationDialog : {
      open : false,
      order : null
-  }
+  },
+
+  cartItemsCount : 0
+
 };
 
 const orderSlice = createSlice({
   name: "order",
   initialState: initialOrder,
   reducers: {
+    //To keep track of Cart items
+    setCartItemsCount : (state, action)=>{
+      state.cartItemsCount = action.payload;
+    },
+    clearCartItemsCount : (state)=>{
+      state.cartItemsCount = 0;
+    },
+    initializeCartItemsCount : (state) => {
+      if (typeof window !== "undefined" && localStorage.getItem('cart')) {
+        const cart = JSON.parse(localStorage.getItem('cart'));
+        state.cartItemsCount = cart.items?.length || 0;
+      }
+    },
+     
     // when we click on edit in cart we have to display this changes in the cart ui
     setCartDetails : (state, action) => {
       state.cartDetails.cart = action.payload

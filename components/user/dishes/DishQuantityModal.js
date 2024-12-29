@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { formatPrice } from "@/lib/utils/price";
 import { defaultDishImage } from "@/config";
+import { useDispatch } from "react-redux";
+import { orderActions } from "@/redux/slices/orderSlice";
 
 export default function DishQuantityModal({
   open,
@@ -19,6 +21,7 @@ export default function DishQuantityModal({
   dish,
   onOrder,
 }) {
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (delta) => {
@@ -49,6 +52,9 @@ export default function DishQuantityModal({
     });
     if(!isDishAlreadyPresent) cart.items.push({ dish: dish, quantity: quantity });
     localStorage.setItem("cart", JSON.stringify(cart));
+    // dispatch(orderActions.setCartItemsCount(cart?.items?.length)) // to show number of items on my order button
+    dispatch(orderActions.setCartItemsCount(cart?.items?.length)) // to show number of items on my order button
+     // to show number of items on my order button
     setQuantity(1);
     onOpenChange();
   };

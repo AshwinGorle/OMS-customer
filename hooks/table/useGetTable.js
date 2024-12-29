@@ -38,6 +38,7 @@ export const useGetTable = (tableId) => {
             dispatch(tableActions.clearGetTableError());
         } else if (status === "failed") {
             setLoading(false);
+            console.log("table status faile")
             toast({
                 title: "Error",
                 description: error || "Failed to Fetch table.",
