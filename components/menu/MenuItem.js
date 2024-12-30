@@ -8,21 +8,13 @@ import { Badge } from "@/components/ui/badge";
 export default function MenuItem({ item }) {
   return (
     <div className="p-4 flex gap-4 hover:bg-gray-50/80 transition-colors group">
-      <div className="relative h-24 w-24 flex-shrink-0 rounded-lg overflow-hidden">
+      <div className="relative h-10 w-10 flex-shrink-0 rounded-lg overflow-hidden">
         <Image
           src={item.logo}
           alt={item.name}
           fill
           className="object-cover transform group-hover:scale-105 transition-transform duration-300"
         />
-        {item.bestSeller && (
-          <div className="absolute top-2 left-2">
-            <Badge variant="default" className="bg-yellow-500/90 hover:bg-yellow-500/95">
-              <Award className="h-3 w-3 mr-1" />
-              Bestseller
-            </Badge>
-          </div>
-        )}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex justify-between items-start gap-2">
