@@ -181,7 +181,7 @@ export default function UserPage() {
         </Dialog>
         <div className="p-4 space-y-6">
           <OffersCarousel offers={offers} />
-          <ActionButtons />
+          <ActionButtons hotelId={hotelId} />
           <CategoriesSection
             categories={categories}
             selectedCategory={selectedCategory}

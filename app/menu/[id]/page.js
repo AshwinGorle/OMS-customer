@@ -9,7 +9,8 @@ import { menuData } from "@/data/menuData";
 import { useGetAllDishes } from "@/hooks/dish/useGetAllDishes";
 
 export default function MenuPage() {
-  const {hotelId} = useParams();
+  const {id : hotelId} = useParams();
+  console.log("hotelId in menue", hotelId);
   const { loading: dishesLoading, dishes } = useGetAllDishes(
       "dish",
       hotelId,
