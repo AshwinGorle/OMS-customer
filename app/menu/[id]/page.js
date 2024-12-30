@@ -5,8 +5,26 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import MenuCategory from "@/components/menu/MenuCategory";
-import { menuData } from "@/data/menuData";
 import { useGetAllDishes } from "@/hooks/dish/useGetAllDishes";
+import MenuHeader from "@/components/menu/MenuHeader";
+
+const organizeDishes = (dishes) => {
+  const categorizedDishes = dishes.reduce((acc, dish) => {
+    const categoryName = dish.category ? dish.category.name : "Uncategorized";
+    if (!acc[categoryName]) {
+      acc[categoryName] = [];
+    }
+    acc[categoryName].push(dish);
+    return acc;
+  }, {});
+
+  // Sort categories alphabetically, but keep "Uncategorized" at the end
+  return Object.entries(categorizedDishes).sort(([a], [b]) => {
+    if (a === "Uncategorized") return 1;
+    if (b === "Uncategorized") return -1;
+    return a.localeCompare(b);
+  });
+};
 
 export default function MenuPage() {
   const {id : hotelId} = useParams();
@@ -16,48 +34,32 @@ export default function MenuPage() {
       hotelId,
       true
   );
-  // // bhai ye rha data console me dekh le
-  console.log("dishes", dishes)
-  // console.log("dishes in menue :",dishes);
+
   const router = useRouter();
   const [expandedCategory, setExpandedCategory] = useState(null);
+  const categorizedDishes = organizeDishes(dishes);
 
   const toggleCategory = (category) => {
     setExpandedCategory(expandedCategory === category ? null : category);
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="sticky top-0 z-10 bg-white border-b">
-        <div className="max-w-lg mx-auto px-4">
-          <div className="flex items-center h-14">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => router.back()}
-              className="mr-4"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <h1 className="text-xl font-semibold">Menu</h1>
-          </div>
-        </div>
-      </div>
+return (
+  <div className="min-h-screen bg-gray-50/50">
+    <MenuHeader onBack={() => router.back()} />
 
-      <div className="max-w-lg mx-auto px-4 py-6">
-        <div className="space-y-3">
-          {Object.entries(menuData).map(([category, items]) => (
-            <MenuCategory
-              dishes={dishes}
-              key={category}
-              category={category}
-              items={items}
-              isExpanded={expandedCategory === category}
-              onToggle={() => toggleCategory(category)}
-            />
-          ))}
-        </div>
+    <div className="max-w-2xl mx-auto px-4 py-6">
+      <div className="space-y-4">
+        {categorizedDishes.map(([categoryName, items]) => (
+          <MenuCategory
+            key={categoryName}
+            category={categoryName}
+            items={items}
+            isExpanded={expandedCategory === categoryName}
+            onToggle={() => toggleCategory(categoryName)}
+          />
+        ))}
       </div>
     </div>
-  );
+  </div>
+);
 }
