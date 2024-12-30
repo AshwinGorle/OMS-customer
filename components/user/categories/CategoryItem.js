@@ -7,7 +7,7 @@ import { defaultCategoryImage } from "@/config";
 export default function CategoryItem({ category, isSelected, onClick }) {
   return (
     <div 
-      className="flex flex-col items-center space-y-2 flex-shrink-0 cursor-pointer"
+      className="flex mt-1 flex-col items-center space-y-2 flex-shrink-0 cursor-pointer"
       onClick={() => onClick(category)}
     >
       <div className={cn(
