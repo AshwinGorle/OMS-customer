@@ -5,8 +5,7 @@ import { getTableOrders } from "@/redux/actions/order/orderActions";
 import { orderActions } from "@/redux/slices/orderSlice";
 
 
-export const useGetTableOrders = (tableId) => {
-  const params = {};
+export const useGetTableOrders = (tableId, params = {}) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { refresh = false, setRefresh = null } = params;
@@ -16,8 +15,9 @@ export const useGetTableOrders = (tableId) => {
   );
   const { toast } = useToast();
   const fetchTableOrders = useCallback(() => {
-    if (!data || refresh) {
+    if (refresh || !data && !error) {
       dispatch(getTableOrders(tableId));
+      setRefresh(false);
     }
   }, [dispatch, data, refresh]);
 
@@ -31,11 +31,11 @@ export const useGetTableOrders = (tableId) => {
     } else if (status === "success") {
       setLoading(false);
       setRefresh && setRefresh(false);
-      toast({
-        title: "Success",
-        description: "Table Orders fetched successfully.",
-        variant: "success",
-      });
+      // toast({
+      //   title: "Success",
+      //   description: "Table Orders fetched successfully.",
+      //   variant: "success",
+      // });
       dispatch(orderActions.clearGetTableOrderStatus());
       dispatch(orderActions.clearGetTableOrderError());
     } else if (status === "failed") {
