@@ -17,7 +17,7 @@ export const useGetAllDishes = (type = "dish", hotelId, loadContent = false, set
         console.log("loadcontent in dishes : ", loadContent)
         if ( loadContent  && !data ) {
             dispatch(getAllDishes(hotelId));
-            setLoadContent(false)
+            if(setLoadContent) setLoadContent(false)
         }
     }
 

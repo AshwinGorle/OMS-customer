@@ -4,7 +4,7 @@ import { Menu, QrCode } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-export default function ActionButtons() {
+export default function ActionButtons({hotelId}) {
   const router = useRouter();
 
   return (
@@ -12,7 +12,7 @@ export default function ActionButtons() {
       <Button 
         size="lg"
         className="w-full max-w-xs mx-auto shadow-lg hover:shadow-xl transition-shadow"
-        onClick={() => router.push('/menu')}
+        onClick={() => router.push(`/menu/${hotelId}`)}
       >
         <Menu className="h-5 w-5 mr-2" />
         View Full Menu
