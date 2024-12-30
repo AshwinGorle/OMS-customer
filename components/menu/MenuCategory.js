@@ -3,7 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function MenuCategory({ category, items, isExpanded, onToggle }) {
+export default function MenuCategory({dishes ,  category, items, isExpanded, onToggle }) {
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
       <button

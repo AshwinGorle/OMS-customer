@@ -47,6 +47,7 @@ export default function MenuPage() {
         <div className="space-y-3">
           {Object.entries(menuData).map(([category, items]) => (
             <MenuCategory
+              dishes={dishes}
               key={category}
               category={category}
               items={items}
