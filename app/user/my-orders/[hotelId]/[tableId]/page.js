@@ -89,7 +89,7 @@ const MyOrderPage = () => {
         
 
 
-      {tableOrders && tableOrders.length && <OrderList orders={tableOrders}></OrderList>}
+      {tableOrders && tableOrders.length > 0 && <OrderList orders={tableOrders}></OrderList>}
       
       <OrderConfirmationDialog/>
       <DeleteOrderModal/>
