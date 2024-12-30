@@ -43,20 +43,24 @@ export default function UserPage() {
 
   //calling data hooks
   const { loading: tableLoading, table } = useGetTable(tableId);
+  console.log("table in component :", table , tableLoading)
   const { loading: dishesLoading, dishes } = useGetAllDishes(
     "dish",
     hotelId,
-    loadContent
+    loadContent,
+    setLoadContent
   );
   const { loading: offerLoading, offers } = useGetAllOffers(
     "offer",
-    hotelId,
-    loadContent
+    hotelId,  
+    loadContent,
+    setLoadContent
   );
   const { loading: categoryLoading, categories } = useGetAllCategories(
     "category",
     hotelId,
-    loadContent
+    loadContent,
+    setLoadContent
   );
   
   //for best seller category
@@ -151,10 +155,10 @@ export default function UserPage() {
   const [filteredDishes, setFilteredDishes] = useState(dishes || []);
   const [searchQuery, setSearchQuery] = useState("");
 
-  if (tableLoading || !table) return <TableLoader />;
+  if (tableLoading || !table ) return <TableLoader />;
   if (dishesLoading || offerLoading || categoryLoading)
     return <UserPageSkeleton />;
-  if (loadContent) {
+  if (dishes && categories && offers) {
     return (
       <div className="min-h-screen bg-gray-50 pb-28">
         <Dialog open={isNameModalOpen} >

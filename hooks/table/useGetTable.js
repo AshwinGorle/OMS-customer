@@ -28,6 +28,7 @@ export const useGetTable = (tableId) => {
             setLoading(true);
         } else if (status === "success") {
             setLoading(false);
+            console.log('table in hook : ', data)
             // setRefresh && setRefresh(false);
             // toast({
             //     title: "Success",

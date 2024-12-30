@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { dishActions } from "@/redux/slices/dishSlice";
 import { getAllDishes } from "@/redux/actions/dish";
 
-export const useGetAllDishes = (type = "dish", hotelId, loadContent = false) => {
+export const useGetAllDishes = (type = "dish", hotelId, loadContent = false, setLoadContent) => {
     const params = {}
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -17,6 +17,7 @@ export const useGetAllDishes = (type = "dish", hotelId, loadContent = false) => 
         console.log("loadcontent in dishes : ", loadContent)
         if ( loadContent  && !data ) {
             dispatch(getAllDishes(hotelId));
+            setLoadContent(false)
         }
     }
 

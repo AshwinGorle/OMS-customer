@@ -5,7 +5,7 @@ import { categoryActions } from "@/redux/slices/categorySlice";
 import { getAllCategories } from "@/redux/actions/category";
 
 
-export const useGetAllCategories = (type="category", hotelId, loadContent) => {
+export const useGetAllCategories = (type="category", hotelId, loadContent, setLoadContent) => {
     const params = {}
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -17,6 +17,7 @@ export const useGetAllCategories = (type="category", hotelId, loadContent) => {
     const fetchAllCategories = useCallback(() => {
         if (loadContent && !data ) {
             dispatch(getAllCategories(hotelId));
+            setLoadContent(false);
         }
     }, [dispatch, data, refresh, loadContent]);
 

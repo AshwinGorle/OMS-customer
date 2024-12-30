@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { UtensilsCrossed } from "lucide-react"; // Replace with an appropriate dining table icon from Lucide if available
 
-export const TableLoader = () => {
+const TableLoader = () => {
   const [dots, setDots] = useState("");
 
   // Dynamic dots for "..." animation

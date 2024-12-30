@@ -3,11 +3,21 @@
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import MenuCategory from "@/components/menu/MenuCategory";
 import { menuData } from "@/data/menuData";
+import { useGetAllDishes } from "@/hooks/dish/useGetAllDishes";
 
 export default function MenuPage() {
+  const {hotelId} = useParams();
+  const { loading: dishesLoading, dishes } = useGetAllDishes(
+      "dish",
+      hotelId,
+      true
+  );
+ console.log("dishes", dishes)
+  // // bhai ye rha data console me dekh le
+  // console.log("dishes in menue :",dishes);
   const router = useRouter();
   const [expandedCategory, setExpandedCategory] = useState(null);
 
