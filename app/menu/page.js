@@ -15,8 +15,8 @@ export default function MenuPage() {
       hotelId,
       true
   );
- console.log("dishes", dishes)
   // // bhai ye rha data console me dekh le
+  console.log("dishes", dishes)
   // console.log("dishes in menue :",dishes);
   const router = useRouter();
   const [expandedCategory, setExpandedCategory] = useState(null);
