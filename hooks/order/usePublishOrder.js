@@ -15,11 +15,11 @@ export const usePublishOrder = () => {
             setLoading(true);
         } else if (status === "success") {
             setLoading(false);
-            toast({
-                title: "Success",
-                description: "Order Published successfully.",
-                variant: "success", // Optional, for success styling
-            });
+            // toast({
+            //     title: "Success",
+            //     description: "Order Published successfully.",
+            //     variant: "success", // Optional, for success styling
+            // });
             dispatch(orderActions.clearPublishOrderError());
             dispatch(orderActions.clearPublishOrderStatus());
         } else if (status === "failed") {

@@ -90,9 +90,9 @@ const MyOrderPage = () => {
           </p>
         </div>
       )}
-       <div className="w-full flex justify-center align-middle">
+       <div className="w-full flex justify-center align-middle mt-4">
        <Button className='bg-green-600' onClick={()=>setRefresh(true)}>
-        Refresh your Orders 
+        Refresh  
         <RotateCw/>
       </Button>
        </div>
