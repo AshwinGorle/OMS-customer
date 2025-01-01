@@ -45,7 +45,8 @@ export const getTable = (tableId) => async (dispatch) => {
         );
 
         const { status, message, data } = response.data;
-        console.log("action-get-table-res:", data);
+        
+        console.log("action-get-table-res:", response.data);
         if (status === "success") {
             dispatch(tableActions.getTableSuccess(data));
         } else {

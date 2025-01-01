@@ -342,10 +342,9 @@ const orderSlice = createSlice({
     },
     deleteOrderSuccess: (state, action) => {
       state.deleteOrder.status = "success";
-      if (state.getAllOrders.data && state.getAllOrders.data.orders) {
-        state.getAllOrders.data.orders = state.getAllOrders.data.orders.filter(
-          (order) => order._id !== action.payload.order
-        );
+      const deletedOrderId = action?.payload?.order?._id?.toString();
+      if (state.getTableOrders.data){
+        state.getTableOrders.data = state.getTableOrders.data.filter((order) => order._id.toString() != deletedOrderId);
       }
     },
     deleteOrderFailure: (state, action) => {

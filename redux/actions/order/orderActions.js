@@ -157,7 +157,7 @@ export const deleteOrder = (orderId) => async (dispatch) => {
     try {
         dispatch(orderActions.deleteOrderRequest());
         const response = await axios.delete(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/orders/${orderId}`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/customers/order/${orderId}`,
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -169,7 +169,7 @@ export const deleteOrder = (orderId) => async (dispatch) => {
         const { status, message, data } = response.data;
         console.log("action-delete-order-res:", data);
         if (status === "success") {
-            dispatch(orderActions.deleteOrderSuccess({ deletedOrderId: orderId }));
+            dispatch(orderActions.deleteOrderSuccess(data))
         } else {
             dispatch(orderActions.deleteOrderFailure(message));
         }
