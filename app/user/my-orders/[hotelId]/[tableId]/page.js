@@ -58,7 +58,7 @@ const MyOrderPage = () => {
   return (
     <div className="container mx-auto p-4">
       {/* ye wapas se daal diya */}
-      <Button
+      {/* <Button
         className="mt-4"
         onClick={() =>
           router.push(
@@ -68,10 +68,20 @@ const MyOrderPage = () => {
       >
         <ArrowLeft />
         Go Back
-      </Button>
+      </Button> */}
       
 
-      <h1 className="text-2xl font-bold mb-4 mt-3">Order Page</h1>
+      <h1 className="text-2xl font-bold mb-4 mt-3">
+        <Button className="bg-white text-black mr-2" 
+        onClick={() =>
+          router.push(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/${hotelId}/${tableId}`
+          )
+        }> 
+          <ArrowLeft />
+        </Button>
+        Order Page
+      </h1>
       {/* <p className="mb-4">Table ID: {tableId}</p> */}
       {cartOrder && cartOrder.length > 0 ? (
         <CartOrderCard
