@@ -7,18 +7,14 @@ const ShimmerEffect = ({ className }) => (
 const MyOrderPageSkeleton = () => {
   return (
     <div className="container mx-auto p-4 space-y-6">
-      {/* Back Button */}
       <div className="mt-4">
-        <Button disabled className="opacity-50">
+        <Button disabled className="opacity-50 flex items-center">
           <div className="w-4 h-4 mr-2 bg-gray-300 rounded-full"></div>
-          Go Back
         </Button>
       </div>
 
-      {/* Page Title */}
       <ShimmerEffect className="h-8 w-48" />
 
-      {/* Big Box / Div for Cart or Orders */}
       <div className="border rounded-lg p-6 space-y-4">
         {/* Shimmer for cart items or order list */}
         {[1, 2, 3].map((item) => (
@@ -33,7 +29,7 @@ const MyOrderPageSkeleton = () => {
         ))}
       </div>
 
-      {/* Additional shimmer for potential order list or other content */}
+
       <div className="space-y-4">
         {[1, 2].map((order) => (
           <div key={order} className="border rounded-lg p-4">

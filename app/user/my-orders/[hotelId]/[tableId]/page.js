@@ -82,6 +82,7 @@ const MyOrderPage = () => {
         </Button>
         Order Page
       </h1>
+      
       {/* <p className="mb-4">Table ID: {tableId}</p> */}
       {cartOrder && cartOrder.length > 0 ? (
         <CartOrderCard
@@ -100,9 +101,9 @@ const MyOrderPage = () => {
           </p>
         </div>
       )}
-       <div className="w-full flex justify-center align-middle mt-4">
-       <Button className='bg-green-600' onClick={()=>setRefresh(true)}>
-        Refresh  
+       <div className="w-full  align-middle mt-4">
+       <Button onClick={()=>setRefresh(true)}>
+        Status
         <RotateCw/>
       </Button>
        </div>
