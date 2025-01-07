@@ -58,34 +58,33 @@ export function OrderCard({ order, status }) {
           ))}
         </ul>
         {status === "draft" && (
-          <div className="m-2 flex gap-4 justify-between ">
-            <Button
-              onClick={() => handleEditOrder(order)}
-              variant="default"
-              size="sm"
-              className="min-w-16"
-            >
-              Edit
-            </Button>
-            <Button
-              onClick={() =>
-                dispatch(orderActions.openDeleteOrderDialog(order))
-              }
-              className="bg-red-500 text-white min-w-16"
-              variant="outline"
-              size="sm"
-            >
-              Delete
-            </Button>
-            <Button
-              onClick={() => handlePublishOrder(order._id.toString())}
-              className="bg-green-500 min-w-16 text-white"
-              variant="outline"
-              size="sm"
-            >
-              {loading ? <Spinner /> : "Confirm"}
-            </Button>
-          </div>
+          <div className="m-2 flex flex-wrap gap-2 justify-center sm:justify-between">
+          <Button
+            onClick={() => handleEditOrder(order)}
+            variant="default"
+            size="sm"
+            className="flex-1 sm:flex-none min-w-[80px]"
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={() => dispatch(orderActions.openDeleteOrderDialog(order))}
+            className="bg-red-500 text-white flex-1 sm:flex-none min-w-[80px]"
+            variant="outline"
+            size="sm"
+          >
+            Delete
+          </Button>
+          <Button
+            onClick={() => handlePublishOrder(order._id.toString())}
+            className="bg-green-500 text-white flex-1 sm:flex-none min-w-[80px]"
+            variant="outline"
+            size="sm"
+          >
+            {loading ? <Spinner /> : "Confirm"}
+          </Button>
+        </div>
+        
         )}
       </CardContent>
     </Card>
