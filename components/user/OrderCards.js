@@ -69,7 +69,7 @@ const { loading : deleteOrderLoading, handleDeleteOrder } = useDeleteOrder();
             size="sm"
             className="flex-1 sm:flex-none min-w-[80px]"
           >
-            {deleteOrderLoading? <Spinner/> : 'Edit'}
+            {deleteOrderLoading? <Spinner color={"while"}/> : 'Edit'}
           </Button>
           <Button
             onClick={() => dispatch(orderActions.openDeleteOrderDialog(order))}
@@ -85,7 +85,7 @@ const { loading : deleteOrderLoading, handleDeleteOrder } = useDeleteOrder();
             variant="outline"
             size="sm"
           >
-            {loading ? <Spinner /> : "Confirm"}
+            {loading ? <Spinner color/> : "Confirm"}
           </Button>
         </div>
         
