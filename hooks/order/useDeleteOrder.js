@@ -15,11 +15,11 @@ export const useDeleteOrder = () => {
             setLoading(true);
         } else if (status === "success") {
             setLoading(false);
-            toast({
-                title: "Success",
-                description: "Order updated successfully.",
-                variant: "success", // Optional, for success styling
-            });
+            // toast({
+            //     title: "Success",
+            //     description: "Order updated successfully.",
+            //     variant: "success", // Optional, for success styling
+            // });
             dispatch(orderActions.clearDeleteOrderStats());
             dispatch(orderActions.closeDeleteOrderDialog());
             
