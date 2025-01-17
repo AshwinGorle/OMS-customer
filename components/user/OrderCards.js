@@ -19,10 +19,12 @@ import { usePublishOrder } from "@/hooks/order/usePublishOrder";
 import { useDispatch } from "react-redux";
 import { orderActions } from "@/redux/slices/orderSlice";
 import { Spinner } from "../ui/spinner";
+import { useDeleteOrder } from "@/hooks/order/useDeleteOrder";
 
 export function OrderCard({ order, status }) {
   const dispatch = useDispatch();
   const { loading, handlePublishOrder } = usePublishOrder();
+const { loading : deleteOrderLoading, handleDeleteOrder } = useDeleteOrder();
 
   const handleEditOrder = (order) => {
     console.log("order:::::::::", order);
@@ -32,6 +34,8 @@ export function OrderCard({ order, status }) {
     });
     localStorage.setItem('cart', JSON.stringify(cartOfEditingOrder))
     dispatch(orderActions.setCartDetails(cartOfEditingOrder));
+    if(order) handleDeleteOrder(order?._id?.toString());
+    
   };
 
   // const calculateTotal = () => {
@@ -65,7 +69,7 @@ export function OrderCard({ order, status }) {
             size="sm"
             className="flex-1 sm:flex-none min-w-[80px]"
           >
-            Edit
+            {deleteOrderLoading? <Spinner/> : 'Edit'}
           </Button>
           <Button
             onClick={() => dispatch(orderActions.openDeleteOrderDialog(order))}

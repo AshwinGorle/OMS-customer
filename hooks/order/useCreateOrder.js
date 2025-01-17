@@ -16,11 +16,11 @@ export const useCreateOrder = (setCartOrder) => {
             setLoading(true);
         } else if (status === "success") {
             setLoading(false);
-            toast({
-                title: "Success",
-                description: "Order added successfully.",
-                variant: "success", // Optional, for success styling
-            });
+            // toast({
+            //     title: "Success",
+            //     description: "Order added successfully.",
+            //     variant: "success", // Optional, for success styling
+            // });
             dispatch(orderActions.clearCreateOrderStats());
             // setOpen(false) // to close dialog
             setCartOrder(null);
