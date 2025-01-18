@@ -35,9 +35,12 @@ export const getAllOrders = () => async (dispatch) => {
 export const getTableOrders = (tableId) => async (dispatch) => {
     console.log("action-get-table-orders-req:");
     try {
+        let customer = localStorage.getItem('customer');
+        const customerId = JSON.parse(customer)?._id.toString();
+        const endPoint = `${process.env.NEXT_PUBLIC_SERVER_URL}/customers/orders/${tableId}${customerId ?`?customerId=${customerId}` :"" }`
         dispatch(orderActions.getTableOrdersRequest());
         const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/customers/orders/${tableId}`,
+            endPoint,
             {
                 headers: {
                     "Content-Type": "application/json",

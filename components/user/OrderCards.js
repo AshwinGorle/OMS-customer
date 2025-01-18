@@ -85,7 +85,7 @@ const { loading : deleteOrderLoading, handleDeleteOrder } = useDeleteOrder();
             variant="outline"
             size="sm"
           >
-            {loading ? <Spinner color/> : "Confirm"}
+            {loading ? <Spinner /> : "Confirm"}
           </Button>
         </div>
         
