@@ -18,7 +18,7 @@ export const usePublishOrder = () => {
             toast({
                 title: "Success",
                 description: "Order placed successfully.",
-                variant: "success", // Optional, for success styling
+                variant: "default", // Optional, for success styling
             });
             dispatch(orderActions.clearPublishOrderError());
             dispatch(orderActions.clearPublishOrderStatus());
